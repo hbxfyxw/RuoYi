@@ -1,0 +1,18 @@
+Intellij idea开发的话需要安装Lombok plugin，
+同时设置 Setting -> Compiler -> Annotation Processors -> Enable annotation processing勾选。
+参考：
+https://blog.csdn.net/zhglance/article/details/54931430
+https://projectlombok.org/features/all
+
+关于：echache 缓存：
+参考：https://blog.csdn.net/vbirdbest/article/details/72763048
+
+shiro+thymleaf:
+参考：https://github.com/theborakompanioni/thymeleaf-extras-shiro
+
+知识点：
+1、shiro
+SessionDAO
+2、log aop
+3、thymleaf
+4、
