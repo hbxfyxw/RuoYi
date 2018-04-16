@@ -1,3 +1,6 @@
+本项目是开源框架集成Shiro权限管理功能
+Springboot1 + Shiro + Mybatis + thymleaf
+
 Intellij idea开发的话需要安装Lombok plugin，
 同时设置 Setting -> Compiler -> Annotation Processors -> Enable annotation processing勾选。
 参考：
@@ -11,8 +14,12 @@ shiro+thymleaf:
 参考：https://github.com/theborakompanioni/thymeleaf-extras-shiro
 
 知识点：
-1、shiro
-SessionDAO
-2、log aop
-3、thymleaf
-4、filter1
+<li>核心框架：Spring Boot。</li>
+<li>安全框架：Apache Shiro。</li>
+<li>模板引擎：Thymeleaf。</li>
+<li>持久层框架：MyBatis。</li>
+<li>数据库连接池：Druid。</li>
+<li>实体对象:Lombok。</li>
+<li>工具类：Apache Commons Fastjson。</li>
+
+用户名：admin/admin123

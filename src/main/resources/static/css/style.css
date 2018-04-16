@@ -3296,7 +3296,7 @@ body.body-small .footer.fixed {
 }
 
 nav.page-tabs {
-    margin-left: 40px;
+    margin-left: 90px;
     width: 100000px;
     height: 40px;
     overflow: hidden;
@@ -3349,7 +3349,7 @@ nav.page-tabs .page-tabs-content {
 }
 
 #content-main {
-    height: calc(100% - 140px);
+    height: calc(100% - 80px);
     overflow: hidden;
 }
 
