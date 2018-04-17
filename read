@@ -23,3 +23,6 @@ shiro+thymleaf:
 <li>工具类：Apache Commons Fastjson。</li>
 
 用户名：admin/admin123
+
+layer.js:
+参考：http://www.layui.com/doc/modules/layer.html
