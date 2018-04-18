@@ -17,6 +17,8 @@ user:
     maxRetryCount: 5
 #Srping配置
 spring:
+  main:
+    show-banner: false
   thymeleaf:
     mode: LEGACYHTML5
     cache: false

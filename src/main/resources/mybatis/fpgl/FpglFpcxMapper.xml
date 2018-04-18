@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.fpgl.fpcx.dao.IFpcxDao">
+
+    <resultMap type="Fpzb" id="FpzbResult">
+        <id property="id" column="id"/>
+        <result property="fpdm" column="fpdm"/>
+        <result property="fphm" column="fphm"/>
+        <result property="kprq" column="kprq"/>
+        <result property="gfsh" column="gfsh"/>
+        <result property="xfsh" column="xfsh"/>
+        <result property="je" column="je"/>
+        <result property="se" column="se"/>
+        <result property="jshj" column="jshj"/>
+        <result property="fplx" column="fplx"/>
+        <result property="gfmc" column="gfmc"/>
+        <result property="xfmc" column="xfmc"/>
+        <result property="gfdzdh" column="gfdzdh"/>
+        <result property="gfyhzh" column="gfyhzh"/>
+        <result property="xfdzdh" column="xfdzdh"/>
+        <result property="xfyhzh" column="xfyhzh"/>
+        <result property="bz" column="bz"/>
+        <result property="jym" column="jym"/>
+        <result property="jqbm" column="jqbm"/>
+        <result property="slv" column="slv"/>
+    </resultMap>
+
+    <resultMap type="Fpmx" id="FpmxResult">
+        <id property="id" column="id"/>
+        <result property="cheadguid" column="cheadguid"/>
+        <result property="xh" column="xh"/>
+        <result property="spmc" column="spmc"/>
+        <result property="jldw" column="jldw"/>
+        <result property="ggxh" column="ggxh"/>
+        <result property="sl" column="sl"/>
+        <result property="se" column="se"/>
+        <result property="slv" column="slv"/>
+        <result property="dj" column="dj"/>
+        <result property="je" column="je"/>
+        <result property="txfslv" column="txfslv"/>
+        <result property="txfse" column="txfse"/>
+        <result property="xmmc" column="xmmc"/>
+        <result property="cph" column="cph"/>
+        <result property="lx" column="lx"/>
+        <result property="txrqq" column="txrqq"/>
+        <result property="txrqz" column="txrqz"/>
+    </resultMap>
+
+    <select id="selectFpcxList" parameterType="Fpzb" resultMap="FpzbResult">
+		select * from fpzb
+	</select>
+
+    <select id="selectFpcxById" parameterType="String" resultMap="FpzbResult">
+        select  *
+        from fpzb
+        where id = #{fpzbId}
+    </select>
+
+    <select id="selectFpcxDetailList" parameterType="String" resultMap="FpmxResult">
+        select * from fpmx
+         where cheadguid = #{fpzbId}
+    </select>
+
+</mapper> 
