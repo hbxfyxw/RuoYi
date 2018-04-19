@@ -84,7 +84,7 @@ body {background-color: #f2f2f2;font: normal 14px "MicroSoft YaHei", "SimHei";co
 #content .contentRight {width: 730px;float: right;margin-top: 20px;min-height: 500px;}
 #content .cms_r .list_other {overflow: hidden;}
 
-#content{background: #fff; width:1028px;padding: 36px;}
+#content{background: #fff; width:1028px;padding-left: 15px;padding-right: 15px;padding-top: 20px;}
 #con_tent {background: #fff;margin: 0 auto;	width: 730px; padding: 20px;box-shadow: 0 4px 5px rgba(0,0,0,0.3);border: 1px solid #ccc;text-align: left;	position: relative;}
 .comm_btn_div {	margin: 20px auto;	text-align: center;}
 /*****当前位置【！！！已改！！！】****/

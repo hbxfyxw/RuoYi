@@ -1,5 +1,10 @@
 package com.ruoyi.project.fpgl.fpcx.domain;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode()
 public class Fpmx {
     //通用信息
     private String id;
