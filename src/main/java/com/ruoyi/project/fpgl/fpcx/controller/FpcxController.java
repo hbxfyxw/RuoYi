@@ -56,7 +56,8 @@ public class FpcxController extends BaseController
         List<Fpmx> fpmxs = fpcxService.selectFpcxDetailList(fpzbId);
         model.addAttribute("fpzb", fpzb);
         model.addAttribute("fpmxs", fpmxs);
-        return prefix + "/cyjg01";
+        String fplx = fpzb.getFplx();
+        return prefix + "/cyjg" + fplx;
     }
 
 }
