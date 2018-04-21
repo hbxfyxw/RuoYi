@@ -26,6 +26,10 @@ $(function() {
             title: '销方名称'
         },
         {
+            field: 'kprq',
+            title: '开票日期'
+        },
+        {
             field: 'bz',
             title: '备注'
         },
@@ -47,7 +51,7 @@ $(function() {
             align: 'center',
             formatter: function(value, row, index) {
                 if (value == 01) {
-                    return '<span class="label label-danger">增值税专用发票</span>';
+                    return '<span class="label label-success">增值税专用发票</span>';
                 } else if(value == 10) {
                     return '<span class="label label-success">增值税电子发票</span>';
                 }else if(value == 04 ){
@@ -56,16 +60,14 @@ $(function() {
                     return '<span class="label label-success">通行费发票</span>';
                 }else if(value == 03 ){
                     return '<span class="label label-success">机动车销售统一发票</span>';
+                }else if(value == 11 ){
+                    return '<span class="label label-success">卷式发票</span>';
                 }else if(value == 15 ){
                     return '<span class="label label-success">二手车销售统一发票</span>';
                 }else{
                     return '<span class="label label-success">其他</span>';
                 }
             }
-        },
-        {
-            field: 'kprq',
-            title: '开票日期'
         },
         {
             title: '操作',
@@ -83,7 +85,7 @@ $(function() {
 /*操作日志-详细*/
 function detail(id) {
     var url = prefix + '/detail/' + id;
-    layer_show("发票详情", url, '1000', '600');
+    layer_show("发票详情", url, '1000', '700');
 }
 
 // 批量删除

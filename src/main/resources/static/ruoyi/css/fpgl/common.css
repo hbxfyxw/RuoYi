@@ -141,7 +141,7 @@ span.arrow-right {width: 0px;height: 0px;border-top: 10px solid transparent;bord
 
 /*右侧查票表格*/
 .comm_table2 {margin: 0 auto;}
-.comm_table2 td {padding: 10px;text-align: left;font-size: 16px;}
+.comm_table2 td {padding: 5px;text-align: left;font-size: 14px;}
 .comm_table2 td input[type=text],.registered input[type=text]  {padding: 5px;width: 230px;border: 1px solid #ccc;border-radius: 4px;height: 25px;line-height: 25px; font-size:14px;color: #555;-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);box-shadow: inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
 .comm_table2 td input[type=password],.registered input[type=password]  {padding: 5px;width: 230px;border: 1px solid #ccc;border-radius: 4px;height: 25px;line-height: 25px; font-size:14px;color: #555;-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);box-shadow: inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
 
