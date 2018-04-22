@@ -83,4 +83,29 @@ public class Fpzb extends PageDomain
 
     //通行费
     private String txfse;  //通信费税额  有可能为 *** 特殊字符 单独处理
+
+    //二手车
+    private String gfdw;//买方单位、个人
+    private String gfdwdm;//买方单位代码 身份证号码
+    private String gfdwdz;//买方地址
+    private String gfdwdh;//买方电话
+    private String mfdw;//卖方单位、个人
+    private String mfdwdm;//卖方单位代码 身份证号码
+    private String mfdwdz;//卖方地址
+    private String mfdwdh;//卖方电话
+    private String cpzh;//车牌照号
+    private String djzh;//登记证号
+    private String cjh;//车架号车辆识别代码
+    private String zrdclgls;//转入地车辆管理所
+    private String cjhj;//车价合计
+    private String jydw;//经营 单位
+    private String jydwdz;//经营单位地址
+    private String jydwnsrsbh;//经营纳税人识别号
+    private String jydwkhyhzh;//经营开户银行账号
+    private String jydwdh;//经营电话
+    private String escsc;//二手车市场
+    private String escnsrsbh;//二手车纳税人识别号
+    private String escdz;//二手车地址
+    private String esckhyhzh;//二手车 开户银行账号
+    private String escdh;//二手车电话
 }

@@ -19,11 +19,25 @@ $(function() {
         },
         {
             field: 'gfmc',
-            title: '购方名称'
+            title: '购方名称',
+            formatter: function(value, row, index) {
+                if (value == '' || value == undefined) {
+                    return row['gfdw'];
+                } else {
+                    return value;
+                }
+            }
         },
         {
             field: 'xfmc',
-            title: '销方名称'
+            title: '销方名称',
+            formatter: function(value, row, index) {
+                if (value == '' || value == undefined) {
+                    return row['mfdw'];
+                } else {
+                    return value;
+                }
+            }
         },
         {
             field: 'kprq',
