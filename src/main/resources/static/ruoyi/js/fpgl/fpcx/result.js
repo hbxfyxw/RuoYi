@@ -535,3 +535,14 @@ function FormatHwmc(mc, str) {
     }
     return html;
   }
+
+$("button#printfp").click(function(){
+    var browser = sessionStorage["browser"];
+    $("button#printfp").hide();
+    $("div#print_area").printArea();
+    if (browser == "ie8" ) {
+        $("button#printfp").show();
+    } else {
+        $("button#printfp").show();
+    }
+});
