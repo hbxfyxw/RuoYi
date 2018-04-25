@@ -12,7 +12,8 @@ import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.project.monitor.job.domain.Job;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 定时任务工具类
@@ -20,9 +21,10 @@ import lombok.extern.slf4j.Slf4j;
  * @author ruoyi
  *
  */
-@Slf4j
 public class ScheduleUtils
 {
+    private static final Logger log = LoggerFactory.getLogger(ScheduleUtils.class);
+
     private final static String JOB_NAME = "TASK_";
 
     /**

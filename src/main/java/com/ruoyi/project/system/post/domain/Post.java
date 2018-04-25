@@ -2,16 +2,12 @@ package com.ruoyi.project.system.post.domain;
 
 import com.ruoyi.framework.web.page.PageDomain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 岗位对象 sys_post
  * 
  * @author ruoyi
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class Post extends PageDomain
 {
     /** 岗位ID */
@@ -37,4 +33,108 @@ public class Post extends PageDomain
     /** 备注 */
     private String remark;
 
+    public Long getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
+    }
+
+    public String getPostName() {
+        return postName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName;
+    }
+
+    public String getPostSort() {
+        return postSort;
+    }
+
+    public void setPostSort(String postSort) {
+        this.postSort = postSort;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "postId=" + postId +
+                ", postCode='" + postCode + '\'' +
+                ", postName='" + postName + '\'' +
+                ", postSort='" + postSort + '\'' +
+                ", status=" + status +
+                ", flag=" + flag +
+                ", createBy='" + createBy + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", updateTime='" + updateTime + '\'' +
+                ", updateBy='" + updateBy + '\'' +
+                ", remark='" + remark + '\'' +
+                '}';
+    }
 }

@@ -1,21 +1,22 @@
 package com.ruoyi.framework.web.exception;
 
 import org.apache.shiro.authz.AuthorizationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import com.ruoyi.framework.web.domain.JSON;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 自定义异常处理器
  * 
  * @author ruoyi
  */
-@Slf4j
 @RestControllerAdvice
 public class DefaultExceptionHandler
 {
+    private static final Logger log = LoggerFactory.getLogger(DefaultExceptionHandler.class);
 
     /**
      * 权限校验失败

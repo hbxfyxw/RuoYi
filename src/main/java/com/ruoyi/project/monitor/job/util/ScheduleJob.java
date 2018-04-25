@@ -7,6 +7,8 @@ import java.util.concurrent.Future;
 
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 import com.ruoyi.common.constant.ScheduleConstants;
@@ -15,17 +17,15 @@ import com.ruoyi.project.monitor.job.domain.Job;
 import com.ruoyi.project.monitor.job.domain.JobLog;
 import com.ruoyi.project.monitor.job.service.IJobLogService;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 定时任务
  * 
  * @author ruoyi
  *
  */
-@Slf4j
 public class ScheduleJob extends QuartzJobBean
 {
+    private static final Logger log = LoggerFactory.getLogger(ScheduleJob.class);
     private ExecutorService service = Executors.newSingleThreadExecutor();
 
     @Override

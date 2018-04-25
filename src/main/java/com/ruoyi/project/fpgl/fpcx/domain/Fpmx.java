@@ -1,11 +1,8 @@
 package com.ruoyi.project.fpgl.fpcx.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import com.ruoyi.framework.web.page.PageDomain;
 
-@Data
-@EqualsAndHashCode()
-public class Fpmx {
+public class Fpmx extends PageDomain {
     //通用信息
     private String id;
     private String cheadguid;
@@ -28,4 +25,147 @@ public class Fpmx {
     private String txrqq;
     private String txrqz;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCheadguid() {
+        return cheadguid;
+    }
+
+    public void setCheadguid(String cheadguid) {
+        this.cheadguid = cheadguid;
+    }
+
+    public Integer getXh() {
+        return xh;
+    }
+
+    public void setXh(Integer xh) {
+        this.xh = xh;
+    }
+
+    public String getSpmc() {
+        return spmc;
+    }
+
+    public void setSpmc(String spmc) {
+        this.spmc = spmc;
+    }
+
+    public String getJldw() {
+        return jldw;
+    }
+
+    public void setJldw(String jldw) {
+        this.jldw = jldw;
+    }
+
+    public String getGgxh() {
+        return ggxh;
+    }
+
+    public void setGgxh(String ggxh) {
+        this.ggxh = ggxh;
+    }
+
+    public Double getSl() {
+        return sl;
+    }
+
+    public void setSl(Double sl) {
+        this.sl = sl;
+    }
+
+    public Double getSe() {
+        return se;
+    }
+
+    public void setSe(Double se) {
+        this.se = se;
+    }
+
+    public String getSlv() {
+        return slv;
+    }
+
+    public void setSlv(String slv) {
+        this.slv = slv;
+    }
+
+    public Double getDj() {
+        return dj;
+    }
+
+    public void setDj(Double dj) {
+        this.dj = dj;
+    }
+
+    public Double getJe() {
+        return je;
+    }
+
+    public void setJe(Double je) {
+        this.je = je;
+    }
+
+    public String getTxfslv() {
+        return txfslv;
+    }
+
+    public void setTxfslv(String txfslv) {
+        this.txfslv = txfslv;
+    }
+
+    public String getTxfse() {
+        return txfse;
+    }
+
+    public void setTxfse(String txfse) {
+        this.txfse = txfse;
+    }
+
+    public String getXmmc() {
+        return xmmc;
+    }
+
+    public void setXmmc(String xmmc) {
+        this.xmmc = xmmc;
+    }
+
+    public String getCph() {
+        return cph;
+    }
+
+    public void setCph(String cph) {
+        this.cph = cph;
+    }
+
+    public String getLx() {
+        return lx;
+    }
+
+    public void setLx(String lx) {
+        this.lx = lx;
+    }
+
+    public String getTxrqq() {
+        return txrqq;
+    }
+
+    public void setTxrqq(String txrqq) {
+        this.txrqq = txrqq;
+    }
+
+    public String getTxrqz() {
+        return txrqz;
+    }
+
+    public void setTxrqz(String txrqz) {
+        this.txrqz = txrqz;
+    }
 }

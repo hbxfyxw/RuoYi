@@ -3,16 +3,12 @@ package com.ruoyi.project.monitor.online.domain;
 import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.project.monitor.online.domain.OnlineSession.OnlineStatus;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 当前在线会话 sys_user_online
  * 
  * @author ruoyi
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class UserOnline extends PageDomain
 {
     /** 用户会话id */
@@ -68,4 +64,108 @@ public class UserOnline extends PageDomain
         return online;
     }
 
+    public String getSessionId() {
+        return sessionId;
+    }
+
+    public void setSessionId(String sessionId) {
+        this.sessionId = sessionId;
+    }
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getIpaddr() {
+        return ipaddr;
+    }
+
+    public void setIpaddr(String ipaddr) {
+        this.ipaddr = ipaddr;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public String getOs() {
+        return os;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public Date getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    public void setStartTimestamp(Date startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    public Date getLastAccessTime() {
+        return lastAccessTime;
+    }
+
+    public void setLastAccessTime(Date lastAccessTime) {
+        this.lastAccessTime = lastAccessTime;
+    }
+
+    public Long getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Long expireTime) {
+        this.expireTime = expireTime;
+    }
+
+    public OnlineStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(OnlineStatus status) {
+        this.status = status;
+    }
+
+    public OnlineSession getSession() {
+        return session;
+    }
+
+    public void setSession(OnlineSession session) {
+        this.session = session;
+    }
+
+    @Override
+    public String toString() {
+        return "UserOnline{" +
+                "sessionId='" + sessionId + '\'' +
+                ", deptName='" + deptName + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", ipaddr='" + ipaddr + '\'' +
+                ", browser='" + browser + '\'' +
+                ", os='" + os + '\'' +
+                ", startTimestamp=" + startTimestamp +
+                ", lastAccessTime=" + lastAccessTime +
+                ", expireTime=" + expireTime +
+                ", status=" + status +
+                ", session=" + session +
+                '}';
+    }
 }

@@ -18,16 +18,18 @@ import com.ruoyi.project.monitor.online.domain.OnlineSession;
 import com.ruoyi.project.monitor.online.domain.UserOnline;
 import com.ruoyi.project.monitor.online.service.UserOnlineServiceImpl;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 主要是在此如果会话的属性修改了 就标识下其修改了 然后方便 OnlineSessionDao同步
  * 
  * @author ruoyi
  */
-@Slf4j
 public class OnlineWebSessionManager extends DefaultWebSessionManager
 {
+    private static final Logger log = LoggerFactory.getLogger(OnlineWebSessionManager.class);
+
     @Override
     public void setAttribute(SessionKey sessionKey, Object attributeKey, Object value) throws InvalidSessionException
     {

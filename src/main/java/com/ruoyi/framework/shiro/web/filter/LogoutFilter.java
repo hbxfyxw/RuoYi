@@ -13,16 +13,17 @@ import com.ruoyi.common.utils.SystemLogUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.user.domain.User;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 退出过滤器
  * 
  * @author ruoyi
  */
-@Slf4j
 public class LogoutFilter extends org.apache.shiro.web.filter.authc.LogoutFilter
 {
+    private static final Logger log = LoggerFactory.getLogger(LogoutFilter.class);
 
     /**
      * 退出后重定向的地址

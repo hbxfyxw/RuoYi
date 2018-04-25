@@ -2,16 +2,12 @@ package com.ruoyi.project.monitor.logininfor.domain;
 
 import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 系统访问日志情况信息 sys_logininfor
  * 
  * @author ruoyi
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class Logininfor extends PageDomain
 {
     /** ID */
@@ -31,4 +27,81 @@ public class Logininfor extends PageDomain
     /** 访问时间 */
     private Date loginTime;
 
+    public Integer getInfoId() {
+        return infoId;
+    }
+
+    public void setInfoId(Integer infoId) {
+        this.infoId = infoId;
+    }
+
+    public String getLoginName() {
+        return loginName;
+    }
+
+    public void setLoginName(String loginName) {
+        this.loginName = loginName;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getIpaddr() {
+        return ipaddr;
+    }
+
+    public void setIpaddr(String ipaddr) {
+        this.ipaddr = ipaddr;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+
+    public void setBrowser(String browser) {
+        this.browser = browser;
+    }
+
+    public String getOs() {
+        return os;
+    }
+
+    public void setOs(String os) {
+        this.os = os;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
+
+    public Date getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Date loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Logininfor{" +
+                "infoId=" + infoId +
+                ", loginName='" + loginName + '\'' +
+                ", status='" + status + '\'' +
+                ", ipaddr='" + ipaddr + '\'' +
+                ", browser='" + browser + '\'' +
+                ", os='" + os + '\'' +
+                ", msg='" + msg + '\'' +
+                ", loginTime=" + loginTime +
+                '}';
+    }
 }

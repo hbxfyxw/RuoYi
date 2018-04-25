@@ -26,16 +26,15 @@ import com.ruoyi.framework.shiro.service.LoginService;
 import com.ruoyi.project.system.menu.service.IMenuService;
 import com.ruoyi.project.system.role.service.IRoleService;
 import com.ruoyi.project.system.user.domain.User;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 自定义Realm 处理登录 权限
  * 
  * @author ruoyi
  */
-@Slf4j
 public class UserRealm extends AuthorizingRealm
 {
+    private static final Logger log = LoggerFactory.getLogger(UserRealm.class);
 
     private static final Logger logeer = LoggerFactory.getLogger(UserRealm.class);
 

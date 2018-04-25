@@ -1,8 +1,5 @@
 package com.ruoyi.framework.web.page;
 
-import lombok.Data;
-
-@Data
 public class PageDomain
 {
     /** 当前记录起始索引 */
@@ -21,4 +18,43 @@ public class PageDomain
         return orderByColumn + " " + isAsc;
     }
 
+    public int getPageNum() {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
+    }
+
+    public String getOrderByColumn() {
+        return orderByColumn;
+    }
+
+    public void setOrderByColumn(String orderByColumn) {
+        this.orderByColumn = orderByColumn;
+    }
+
+    public String getIsAsc() {
+        return isAsc;
+    }
+
+    public void setIsAsc(String isAsc) {
+        this.isAsc = isAsc;
+    }
+
+    public String getSearchValue() {
+        return searchValue;
+    }
+
+    public void setSearchValue(String searchValue) {
+        this.searchValue = searchValue;
+    }
 }

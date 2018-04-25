@@ -1,14 +1,12 @@
 package com.ruoyi.framework.web.page;
 
 import java.util.Map;
-import lombok.Data;
 
 /**
  * 表格请求参数封装
  * 
  * @author ruoyi
  */
-@Data
 public class PageUtilEntity
 {
     /** 当前记录起始索引 */
@@ -27,4 +25,68 @@ public class PageUtilEntity
     private String searchValue;
     /** 请求参数 */
     protected Map<String, Object> reqMap;
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public String getOrderByColumn() {
+        return orderByColumn;
+    }
+
+    public void setOrderByColumn(String orderByColumn) {
+        this.orderByColumn = orderByColumn;
+    }
+
+    public String getIsAsc() {
+        return isAsc;
+    }
+
+    public void setIsAsc(String isAsc) {
+        this.isAsc = isAsc;
+    }
+
+    public boolean isEntityOrField() {
+        return entityOrField;
+    }
+
+    public void setEntityOrField(boolean entityOrField) {
+        this.entityOrField = entityOrField;
+    }
+
+    public int getTotalResult() {
+        return totalResult;
+    }
+
+    public void setTotalResult(int totalResult) {
+        this.totalResult = totalResult;
+    }
+
+    public String getSearchValue() {
+        return searchValue;
+    }
+
+    public void setSearchValue(String searchValue) {
+        this.searchValue = searchValue;
+    }
+
+    public Map<String, Object> getReqMap() {
+        return reqMap;
+    }
+
+    public void setReqMap(Map<String, Object> reqMap) {
+        this.reqMap = reqMap;
+    }
 }

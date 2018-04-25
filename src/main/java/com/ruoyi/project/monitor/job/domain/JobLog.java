@@ -2,16 +2,12 @@ package com.ruoyi.project.monitor.job.domain;
 
 import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 定时任务调度日志信息 sys_job_log
  * 
  * @author ruoyi
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
 public class JobLog  extends PageDomain
 {
     /** ID */
@@ -32,4 +28,76 @@ public class JobLog  extends PageDomain
     private String exceptionInfo;
     /** 创建时间 */
     private Date createTime;
+
+    public Integer getJobLogId() {
+        return jobLogId;
+    }
+
+    public void setJobLogId(Integer jobLogId) {
+        this.jobLogId = jobLogId;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getJobGroup() {
+        return jobGroup;
+    }
+
+    public void setJobGroup(String jobGroup) {
+        this.jobGroup = jobGroup;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+    public String getParams() {
+        return params;
+    }
+
+    public void setParams(String params) {
+        this.params = params;
+    }
+
+    public String getJobMessage() {
+        return jobMessage;
+    }
+
+    public void setJobMessage(String jobMessage) {
+        this.jobMessage = jobMessage;
+    }
+
+    public int getIsException() {
+        return isException;
+    }
+
+    public void setIsException(int isException) {
+        this.isException = isException;
+    }
+
+    public String getExceptionInfo() {
+        return exceptionInfo;
+    }
+
+    public void setExceptionInfo(String exceptionInfo) {
+        this.exceptionInfo = exceptionInfo;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 }
