@@ -38,7 +38,7 @@ public class FpcxController extends BaseController
         return prefix + "/fpcx";
     }
 
-    @RequiresPermissions("fpgl:fpcx:list")
+    @RequiresPermissions("fpgl:fpcx:view")
     @GetMapping("/list")
     @ResponseBody
     public TableDataInfo list(Fpzb fpzb)

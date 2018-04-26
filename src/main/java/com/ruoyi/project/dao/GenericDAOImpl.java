@@ -2,8 +2,11 @@ package com.ruoyi.project.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
-import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import static javax.persistence.LockModeType.*;
@@ -13,11 +16,15 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
 
     protected final EntityManager em;
     protected final Class<T> entityClass;
+    protected CriteriaBuilder criteriaBuilder;
 
     protected GenericDAOImpl(EntityManager em, Class<T> entityClass) {
         this.em = em;
         this.entityClass = entityClass;
+        this.criteriaBuilder = em.getCriteriaBuilder();//线程安全
+
     }
+
 
     public EntityManager getEntityManager() {
         return em;
@@ -46,17 +53,18 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
 
     @Override
     public List<T> findAll() {
-        CriteriaQuery<T> c = em.getCriteriaBuilder().createQuery(entityClass);
-        c.select(c.from(entityClass));
-        return em.createQuery(c).getResultList();
+        CriteriaQuery<T> criteria = criteriaBuilder.createQuery(entityClass);
+        Root<T> from = criteria.from(this.entityClass);
+        criteria.select(from);
+        return em.createQuery(criteria).getResultList();
     }
 
     @Override
     public Long getCount() {
-        CriteriaQuery<Long> c =
-            em.getCriteriaBuilder().createQuery(Long.class);
-        c.select(em.getCriteriaBuilder().count(c.from(entityClass)));
-        return em.createQuery(c).getSingleResult();
+        CriteriaQuery<Long> criteria =
+                criteriaBuilder.createQuery(Long.class);
+        criteria.select(criteriaBuilder.count(criteria.from(entityClass)));
+        return em.createQuery(criteria).getSingleResult();
     }
 
     @Override
@@ -75,4 +83,5 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
         em.remove(instance);
     }
     // ...
+
 }

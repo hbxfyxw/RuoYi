@@ -37,10 +37,10 @@ public class FpzbServiceImpl implements IFpzbService {
             /*
                 All attributes allowed as sort attributes for this page.
              */
-                Fpzb_.fphm
+                Fpzb_.fphm,Fpzb_.fpdm
         );
         page.setCurrent(pageNum);
-        List<Fpzb> list = fpzbDao.getFpzbList(page);
+        List<Fpzb> list = fpzbDao.getFpzbList(page,fpzb);
         Long total = page.getTotalRecords();
         TableDataInfo rspData = new TableDataInfo();
         rspData.setRows(list);

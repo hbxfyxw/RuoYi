@@ -7,6 +7,6 @@ import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import java.util.List;
 
 public interface FpzbDAO extends GenericDAO<Fpzb, String> {
-    List<Fpzb> getFpzbList(Page page);
+    List<Fpzb> getFpzbList(Page page,Fpzb fpzb);
 
 }

@@ -2,7 +2,9 @@ package com.ruoyi.project.fpgl.fpcx.dao;
 
 import com.ruoyi.project.dao.GenericDAOImpl;
 import com.ruoyi.project.dao.Page;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpmx;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb_;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +12,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JPA 概念封装
+ */
 @Service("fpzbDAOImpl")
 public class FpzbDAOImpl extends GenericDAOImpl<Fpzb, String>
         implements FpzbDAO {
@@ -23,40 +30,23 @@ public class FpzbDAOImpl extends GenericDAOImpl<Fpzb, String>
     }
 
     @Override
-    public List<Fpzb> getFpzbList(Page page) {
-          /*
-            This is a regular criteria query you have seen many times before.
-         */
-        CriteriaBuilder cb =
-                getEntityManager().getCriteriaBuilder();
-
-        CriteriaQuery<Fpzb> criteria =
-                cb.createQuery(Fpzb.class);
-
+    public List<Fpzb> getFpzbList(Page page,Fpzb fpzb) {
+        CriteriaQuery<Fpzb> criteria = criteriaBuilder.createQuery(Fpzb.class);
         Root<Fpzb> i = criteria.from(Fpzb.class);
-
-       // Some query details...
-       /* criteria.select(cb.construct(
-                Fpzb.class,
-                i.get(Fpzb_.id),
-                i.get(Fpzb_.fpdm),
-                i.get(Fpzb_.fphm),
-                i.get(Fpzb_.gfmc),
-                i.get(Fpzb_.xfmc),
-                i.get(Fpzb_.kprq),
-                i.get(Fpzb_.bz),
-                i.get(Fpzb_.zfbz),
-                i.get(Fpzb_.fplx),
-                i.get(Fpzb_.gfdw),
-                i.get(Fpzb_.mfdw)
-        ));
-*/
-        /*
-            Delegate finishing the query to the given <code>Page</code>.
-         */
-        TypedQuery<Fpzb> query =
-                page.createQuery(em, criteria, i);
-
+        addCondition(criteria,fpzb,i);
+        TypedQuery<Fpzb> query = page.createQuery(em, criteria, i);
         return query.getResultList();
+    }
+
+    //查询条件
+    private Predicate[] addCondition(CriteriaQuery<Fpzb> criteria,Fpzb fpzb,Root<Fpzb> i){
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if(null != fpzb.getFphm()){
+            criteria.select(i).where(criteriaBuilder.equal(i.get("fphm"),fpzb.getFphm()));
+        }
+        if(predicates.size() == 0)
+            return null;
+        return  predicates.toArray(new Predicate[0]);
     }
 }

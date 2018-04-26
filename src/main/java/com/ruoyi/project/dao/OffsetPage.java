@@ -8,6 +8,9 @@ import javax.persistence.criteria.Path;
 import javax.persistence.metamodel.SingularAttribute;
 import java.math.BigDecimal;
 
+/**
+ * 分页查询
+ */
 public class OffsetPage extends Page {
 
     /* 
