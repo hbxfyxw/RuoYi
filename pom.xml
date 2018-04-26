@@ -33,10 +33,22 @@
 		<mybatisplus-spring-boot-starter.version>1.0.4</mybatisplus-spring-boot-starter.version>
 		<velocity.version>1.7</velocity.version>
 		<quartz.version>2.3.0</quartz.version>
+		<!-- Hibernate's implementation -->
+		<hibernate.version>5.0.1.Final</hibernate.version>
+
 	</properties>
 
 	<dependencies>
-		
+
+		<!-- Hibernate Metamodel annotation processor will be detected by the Java compiler -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>${hibernate.version}</version>
+			<!-- Compile-time only dependency -->
+			<scope>provided</scope>
+		</dependency>
+
 		<!-- SpringBoot 核心包 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,7 +79,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
-		
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
 		<!-- thymeleaf网页解析 -->
 		<dependency>
 			<groupId>net.sourceforge.nekohtml</groupId>
@@ -150,7 +167,7 @@
 			<version>${bitwalker.version}</version>
 		</dependency>
 		
-	<!--	&lt;!&ndash; 注解POJO &ndash;&gt;
+	<!--注解POJO 生成元数据模型;
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

@@ -2,6 +2,10 @@ package com.ruoyi.project.fpgl.fpcx.domain;
 
 import com.ruoyi.framework.web.page.PageDomain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
 
 /**
@@ -9,9 +13,12 @@ import java.util.Date;
  * 
  * @author ruoyi
  */
+@Entity
+@Table(name="t_fpzb")
 public class Fpzb extends PageDomain
 {
     //发票通用信息
+    @Id
     private String id;
     private String fpdm;
     private String fphm;

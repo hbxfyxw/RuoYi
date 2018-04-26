@@ -1,14 +1,11 @@
 package com.ruoyi.project.fpgl.fpcx.controller;
 
-import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.web.controller.BaseController;
-import com.ruoyi.framework.web.domain.JSON;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpmx;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
-import com.ruoyi.project.fpgl.fpcx.service.IFpcxService;
-import com.ruoyi.project.monitor.operlog.domain.OperLog;
-import com.ruoyi.project.monitor.operlog.service.IOperLogService;
+import com.ruoyi.project.fpgl.fpcx.service.IFpmxService;
+import com.ruoyi.project.fpgl.fpcx.service.IFpzbService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +26,10 @@ public class FpcxController extends BaseController
     private String prefix = "fpgl/fpcx";
 
     @Autowired
-    private IFpcxService fpcxService;
+    private IFpzbService fpzbService;
+
+    @Autowired
+    private IFpmxService fpmxService;
 
     @RequiresPermissions("fpgl:fpcx:view")
     @GetMapping()
@@ -43,17 +43,15 @@ public class FpcxController extends BaseController
     @ResponseBody
     public TableDataInfo list(Fpzb fpzb)
     {
-        setPageInfo(fpzb);
-        List<Fpzb> list = fpcxService.selectFpcxList(fpzb);
-        return getDataTable(list);
+        return fpzbService.selectFpcxList(fpzb);
     }
 
     @RequiresPermissions("fpgl:fpcx:detail")
     @GetMapping("/detail/{fpzbId}")
     public String detail(@PathVariable("fpzbId") String fpzbId, Model model)
     {
-        Fpzb fpzb = fpcxService.selectFpcxById(fpzbId);
-        List<Fpmx> fpmxs = fpcxService.selectFpcxDetailList(fpzbId);
+        Fpzb fpzb = fpzbService.selectFpzbById(fpzbId);
+        List<Fpmx> fpmxs = fpmxService.selectFpmxDetailByZbid(fpzbId);
         model.addAttribute("fpzb", fpzb);
         model.addAttribute("fpmxs", fpmxs);
         String fplx = fpzb.getFplx();

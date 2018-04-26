@@ -99,7 +99,7 @@ $(function() {
 /*操作日志-详细*/
 function detail(id) {
     var url = prefix + '/detail/' + id;
-    layer_show("发票详情", url, '1000', '700');
+    layer_show("发票详情", url, '1000', '600');
 }
 
 // 批量删除
