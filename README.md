@@ -1,1 +1,1 @@
-devfirst branch: 去掉lombok，可能会有潜在风险
+devfirst branch: mybatis 改成 SpringDataJPA
