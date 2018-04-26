@@ -45,12 +45,10 @@ public abstract class Page {
     protected SingularAttribute[] allowedAttributes;
 
     protected Page(int size,
-                   long totalRecords,
                    SingularAttribute defaultAttribute,
                    SortDirection defaultDirection,
                    SingularAttribute... allowedAttributes) {
         this.size = size;
-        this.totalRecords = totalRecords;
         this.sortDirection = defaultDirection;
         this.allowedAttributes = allowedAttributes;
         setSortAttribute(defaultAttribute);

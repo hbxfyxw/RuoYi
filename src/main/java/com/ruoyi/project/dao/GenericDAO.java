@@ -2,6 +2,9 @@ package com.ruoyi.project.dao;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 
@@ -28,7 +31,7 @@ public interface GenericDAO<T, ID extends Serializable>
 
     List<T> findAll();
 
-    Long getCount();
+    Long getCount(CriteriaQuery<Long> criteria, Root<T> root,Predicate[] predicate);
 
     T makePersistent(T entity);
 

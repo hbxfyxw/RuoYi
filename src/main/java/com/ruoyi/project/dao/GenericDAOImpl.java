@@ -1,5 +1,7 @@
 package com.ruoyi.project.dao;
 
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.criteria.*;
@@ -60,10 +62,12 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
     }
 
     @Override
-    public Long getCount() {
-        CriteriaQuery<Long> criteria =
-                criteriaBuilder.createQuery(Long.class);
-        criteria.select(criteriaBuilder.count(criteria.from(entityClass)));
+    public Long getCount(CriteriaQuery<Long> criteria,Root<T> root,Predicate[] predicates) {
+        if(null != predicates){
+            criteria.select(criteriaBuilder.count(root)).where(predicates);
+        }else{
+            criteria.select(criteriaBuilder.count(root));
+        }
         return em.createQuery(criteria).getSingleResult();
     }
 

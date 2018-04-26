@@ -26,10 +26,6 @@ public class FpmxServiceImpl implements IFpmxService {
              */
                 fpmx.getPageSize(),
             /*
-                The total number of records available.
-             */
-                fpmxDao.getCount(),
-            /*
                 The default sort attribute and sort direction.
              */
                 Fpmx_.xh, ASC,

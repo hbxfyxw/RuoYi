@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.ruoyi.project.dao.Page.SortDirection.ASC;
+import static com.ruoyi.project.dao.Page.SortDirection.DESC;
 
 import java.util.List;
 
@@ -22,21 +23,8 @@ public class FpzbServiceImpl implements IFpzbService {
     public TableDataInfo selectFpcxList(Fpzb fpzb) {
         int pageNum =  fpzb.getPageNum();
         OffsetPage page = new OffsetPage(
-            /*
-                The page size.
-             */
                 fpzb.getPageSize(),
-            /*
-                The total number of records available.
-             */
-                fpzbDao.getCount(),
-            /*
-                The default sort attribute and sort direction.
-             */
-                Fpzb_.fphm, ASC,
-            /*
-                All attributes allowed as sort attributes for this page.
-             */
+                Fpzb_.fphm, fpzb.getIsAsc().equals("desc")? DESC:ASC,
                 Fpzb_.fphm,Fpzb_.fpdm
         );
         page.setCurrent(pageNum);

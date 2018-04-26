@@ -19,11 +19,10 @@ public class OffsetPage extends Page {
     protected int current = 1;
 
     public OffsetPage(int size, 
-                      long totalRecords,
                       SingularAttribute defaultAttribute,
                       SortDirection defaultDirection, 
                       SingularAttribute... allowedAttributes) {
-        super(size, totalRecords, defaultAttribute, defaultDirection, allowedAttributes);
+        super(size, defaultAttribute, defaultDirection, allowedAttributes);
     }
 
     public int getCurrent() {
