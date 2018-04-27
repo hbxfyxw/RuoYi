@@ -52,11 +52,8 @@ public class BaseController
         int page = 1;
         int size = 10;
         Sort sort = null;
-
-
         page=  pageDomain.getPageNum();
         size = pageDomain.getPageSize();
-
         try {
             String sortName = pageDomain.getOrderByColumn();
             String sortOrder = pageDomain.getIsAsc();

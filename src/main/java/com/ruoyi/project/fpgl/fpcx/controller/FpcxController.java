@@ -44,8 +44,7 @@ public class FpcxController extends BaseController
     @ResponseBody
     public TableDataInfo list(Fpzb fpzb)
     {
-        PageRequest pageRequest = getPageRequest(fpzb);
-        return fpzbService.selectFpcxList(pageRequest,fpzb);
+        return fpzbService.selectFpcxList(getPageRequest(fpzb),fpzb);
     }
 
     @RequiresPermissions("fpgl:fpcx:detail")

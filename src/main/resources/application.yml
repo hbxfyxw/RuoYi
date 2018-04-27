@@ -18,22 +18,14 @@ user:
     maxRetryCount: 5
 #Srping配置
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/ry?characterEncoding=utf8
-    username: root
-    password: root
   jpa:
     show-sql: true
     hibernate.ddl-auto: update
     database: mysql
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect"
-        format: true
-  main:
-    Banner:
-    banner-mode: off
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        format_sql: true
   thymeleaf:
     mode: LEGACYHTML5
     cache: false

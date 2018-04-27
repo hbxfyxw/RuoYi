@@ -10,6 +10,5 @@ import java.util.List;
 
 @Repository
 public interface FpmxDAO extends BaseDao<Fpmx, String> {
-    Page<Fpmx> findAllByLike(String searchText, PageRequest pageRequest);
-    List<Fpmx> getFpmxListByZbid(String fpzbId);
+    List<Fpmx> findByCheadguid(String fpzbId);
 }

@@ -101,7 +101,7 @@ public class RoleController extends BaseController
         {
             return JSON.error("角色不存在");
         }
-        if (roleService.deleteRoleById(roleId) > 0)
+        if (roleService.deleteRoleById(roleId))
         {
             return JSON.ok();
         }

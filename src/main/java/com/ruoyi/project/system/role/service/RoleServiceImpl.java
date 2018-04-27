@@ -5,15 +5,21 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
-import com.ruoyi.project.system.role.dao.IRoleDao;
-import com.ruoyi.project.system.role.dao.IRoleMenuDao;
+import com.ruoyi.project.system.role.dao.RoleDao;
+import com.ruoyi.project.system.role.dao.RoleMenuDao;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.domain.RoleMenu;
 import com.ruoyi.project.system.user.dao.IUserRoleDao;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 角色 业务层处理
@@ -25,10 +31,10 @@ public class RoleServiceImpl implements IRoleService
 {
 
     @Autowired
-    private IRoleDao roleDao;
+    private RoleDao roleDao;
 
     @Autowired
-    private IRoleMenuDao roleMenuDao;
+    private RoleMenuDao roleMenuDao;
 
     @Autowired
     private IUserRoleDao userRoleDao;
@@ -42,7 +48,23 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public List<Role> selectRoleList(Role role)
     {
-        return roleDao.selectRoleList(role);
+        String keyword = role.getSearchValue();
+        Specification<Role> spec = new Specification<Role>() {
+            @Override
+            public Predicate toPredicate(Root<Role> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("roleName"), "%/" + keyword + "%", '/');
+                    Predicate predicateP = builder.like(root.<String> get("roleKey"), "%/" + keyword + "%", '/');
+                    predicates.add(builder.or(predicateT, predicateP));
+                }
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        return roleDao.findAll(spec);
     }
 
     /**
@@ -54,11 +76,12 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public Set<String> selectRoleKeys(Long userId)
     {
+
         List<Role> perms = roleDao.selectRolesByUserId(userId);
         Set<String> permsSet = new HashSet<>();
         for (Role perm : perms)
         {
-            if (StringUtils.isNotNull(perms))
+            if (null != perms)
             {
                 permsSet.addAll(Arrays.asList(perm.getRoleKey().trim().split(",")));
             }
@@ -76,7 +99,7 @@ public class RoleServiceImpl implements IRoleService
     public List<Role> selectRolesByUserId(Long userId)
     {
         List<Role> userRoles = roleDao.selectRolesByUserId(userId);
-        List<Role> roles = roleDao.selectRolesAll();
+        List<Role> roles = roleDao.findAll();
         for (Role role : roles)
         {
             for (Role userRole : userRoles)
@@ -99,7 +122,7 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public List<Role> selectRoleAll()
     {
-        return roleDao.selectRolesAll();
+        return roleDao.findAll();
     }
 
     /**
@@ -111,7 +134,7 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public Role selectRoleById(Long roleId)
     {
-        return roleDao.selectRoleById(roleId);
+        return roleDao.findByRoleId(roleId);
     }
 
     /**
@@ -121,11 +144,12 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public int deleteRoleById(Long roleId)
+    public boolean deleteRoleById(Long roleId)
     {
         userRoleDao.deleteUserRoleByUserId(roleId);
-        roleMenuDao.deleteRoleMenuByRoleId(roleId);
-        return roleDao.deleteRoleById(roleId);
+        roleMenuDao.delete(roleId);
+        roleDao.delete(roleId);
+        return true;
     }
 
     /**
@@ -137,7 +161,8 @@ public class RoleServiceImpl implements IRoleService
     @Override
     public int batchDeleteRole(Long[] ids)
     {
-        return roleDao.batchDeleteRole(ids);
+        String idstr = "(" + StringUtils.join(ids,",") + ")";
+        return roleDao.batchDeleteRole(idstr);
     }
 
     /**
@@ -150,19 +175,20 @@ public class RoleServiceImpl implements IRoleService
     public int saveRole(Role role)
     {
         Long roleId = role.getRoleId();
-        if (StringUtils.isNotNull(roleId))
+        if (null != roleId)
         {
             role.setUpdateBy(ShiroUtils.getLoginName());
             // 修改角色信息
-            roleDao.updateRole(role);
+            roleDao.save(role);
             // 删除角色与菜单关联
-            roleMenuDao.deleteRoleMenuByRoleId(roleId);
+            roleMenuDao.delete(roleId);
+
         }
         else
         {
             role.setCreateBy(ShiroUtils.getLoginName());
             // 新增角色信息
-            roleDao.insertRole(role);
+            roleDao.save(role);
         }
         return insertRoleMenu(role);
     }
@@ -170,7 +196,6 @@ public class RoleServiceImpl implements IRoleService
     /**
      * 新增角色菜单信息
      * 
-     * @param user 角色对象
      */
     public int insertRoleMenu(Role role)
     {
@@ -186,7 +211,9 @@ public class RoleServiceImpl implements IRoleService
         }
         if (list.size() > 0)
         {
-            rows = roleMenuDao.batchRoleMenu(list);
+            for(RoleMenu roleMenu:list){
+                //rows = roleMenuDao.save(roleMenu);
+            }
         }
         return rows;
     }

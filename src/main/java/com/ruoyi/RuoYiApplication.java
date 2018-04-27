@@ -1,5 +1,6 @@
 package com.ruoyi;
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +17,9 @@ public class RuoYiApplication
 {
     public static void main(String[] args)
     {
-        SpringApplication.run(RuoYiApplication.class, args);
+        SpringApplication app = new SpringApplication(RuoYiApplication.class);
+        app.setBannerMode(Banner.Mode.OFF);
+        app.run(args);
         System.out.println("(♥◠‿◠)ﾉﾞ  若依启动成功   ლ(´ڡ`ლ)ﾞ  \n" +
                 " .-------.       ____     __        \n" +
                 " |  _ _   \\      \\   \\   /  /    \n" +
