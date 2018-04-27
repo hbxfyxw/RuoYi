@@ -9,6 +9,13 @@ import com.ruoyi.framework.web.page.PageUtilEntity;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.framework.web.support.TableSupport;
 import com.ruoyi.project.system.user.domain.User;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * web层通用数据处理
@@ -34,6 +41,41 @@ public class BaseController
         PageDomain page = (PageDomain) obj;
         PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
     }
+
+
+
+    /**
+     * 获取分页请求
+     * @return
+     */
+    protected PageRequest getPageRequest(PageDomain pageDomain){
+        int page = 1;
+        int size = 10;
+        Sort sort = null;
+
+
+        page=  pageDomain.getPageNum();
+        size = pageDomain.getPageSize();
+
+        try {
+            String sortName = pageDomain.getOrderByColumn();
+            String sortOrder = pageDomain.getIsAsc();
+            if(StringUtils.isNoneBlank(sortName) && StringUtils.isNoneBlank(sortOrder)){
+                if(sortOrder.equalsIgnoreCase("desc")){
+                    sort = new Sort(Sort.Direction.DESC, sortName);
+                }else{
+                    sort = new Sort(Sort.Direction.ASC, sortName);
+                }
+            }
+            page = page - 1;
+            size = size;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        PageRequest pageRequest = new PageRequest(page, size, sort);
+        return pageRequest;
+    }
+
 
     /**
      * 响应请求分页数据

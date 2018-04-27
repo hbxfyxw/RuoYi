@@ -1,6 +1,6 @@
 package com.ruoyi.project.fpgl.fpcx.domain;
 
-import com.ruoyi.framework.web.page.PageDomain;
+import com.ruoyi.framework.web.domain.BaseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="t_fpmx")
-public class Fpmx extends PageDomain {
+public class Fpmx extends BaseEntity {
     //通用信息
     @Id
     private String id;

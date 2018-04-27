@@ -4,6 +4,7 @@ import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpmx;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import com.ruoyi.project.monitor.operlog.domain.OperLog;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface IFpzbService
      * @param fpzb
      * @return
      */
-    public TableDataInfo selectFpcxList(Fpzb fpzb);
+    public TableDataInfo selectFpcxList(PageRequest pageRequest, Fpzb fpzb);
 
     /**
      * 根据ID查询发票

@@ -3,6 +3,7 @@ package com.ruoyi.project.fpgl.fpcx.service;
 import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpmx;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface IFpmxService
      * @param fpmx
      * @return
      */
-    public TableDataInfo selectFpmxList(Fpmx fpmx);
+    public TableDataInfo selectFpmxList(PageRequest pageRequest, Fpmx fpmx);
 
     /**
      * 根据ID查询发票明细

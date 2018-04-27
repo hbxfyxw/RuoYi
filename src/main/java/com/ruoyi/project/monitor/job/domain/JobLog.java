@@ -1,7 +1,8 @@
 package com.ruoyi.project.monitor.job.domain;
 
-import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
+
+import java.util.Date;
 
 /**
  * 定时任务调度日志信息 sys_job_log

@@ -8,6 +8,7 @@ import com.ruoyi.project.fpgl.fpcx.service.IFpmxService;
 import com.ruoyi.project.fpgl.fpcx.service.IFpzbService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,7 +44,8 @@ public class FpcxController extends BaseController
     @ResponseBody
     public TableDataInfo list(Fpzb fpzb)
     {
-        return fpzbService.selectFpcxList(fpzb);
+        PageRequest pageRequest = getPageRequest(fpzb);
+        return fpzbService.selectFpcxList(pageRequest,fpzb);
     }
 
     @RequiresPermissions("fpgl:fpcx:detail")

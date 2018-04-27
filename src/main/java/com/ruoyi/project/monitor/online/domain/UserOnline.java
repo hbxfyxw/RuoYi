@@ -1,6 +1,7 @@
 package com.ruoyi.project.monitor.online.domain;
 
 import java.util.Date;
+
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.project.monitor.online.domain.OnlineSession.OnlineStatus;
 

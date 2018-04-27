@@ -1,7 +1,8 @@
 package com.ruoyi.project.monitor.operlog.domain;
 
-import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
+
+import java.util.Date;
 
 /**
  * 操作日志记录 oper_log

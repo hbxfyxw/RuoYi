@@ -1,7 +1,7 @@
 package com.ruoyi.project.system.post.domain;
 
-import com.ruoyi.framework.web.page.PageDomain;
 
+import com.ruoyi.framework.web.page.PageDomain;
 
 /**
  * 岗位对象 sys_post

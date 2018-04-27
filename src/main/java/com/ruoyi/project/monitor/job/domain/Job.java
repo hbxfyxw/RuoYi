@@ -1,8 +1,9 @@
 package com.ruoyi.project.monitor.job.domain;
 
+import com.ruoyi.framework.web.page.PageDomain;
+
 import java.io.Serializable;
 import java.util.Date;
-import com.ruoyi.framework.web.page.PageDomain;
 
 /**
  * 定时任务调度信息 sys_job

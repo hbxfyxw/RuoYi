@@ -1,7 +1,8 @@
 package com.ruoyi.project.monitor.logininfor.domain;
 
-import java.util.Date;
 import com.ruoyi.framework.web.page.PageDomain;
+
+import java.util.Date;
 
 /**
  * 系统访问日志情况信息 sys_logininfor

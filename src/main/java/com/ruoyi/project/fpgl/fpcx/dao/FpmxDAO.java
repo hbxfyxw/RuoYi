@@ -1,13 +1,16 @@
 package com.ruoyi.project.fpgl.fpcx.dao;
 
-import com.ruoyi.project.dao.GenericDAO;
-import com.ruoyi.project.dao.Page;
+import com.ruoyi.framework.web.dao.IBaseDao;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpmx;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface FpmxDAO extends GenericDAO<Fpmx, String> {
-    List<Fpmx> getFpmxList(Page page);
+@Repository
+public interface FpmxDAO extends IBaseDao<Fpmx, String> {
+    Page<Fpmx> findAllByLike(String searchText, PageRequest pageRequest);
     List<Fpmx> getFpmxListByZbid(String fpzbId);
 }

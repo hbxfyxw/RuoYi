@@ -1,8 +1,9 @@
 package com.ruoyi.project.system.role.domain;
 
+import com.ruoyi.framework.web.page.PageDomain;
+
 import java.util.Arrays;
 import java.util.Date;
-import com.ruoyi.framework.web.page.PageDomain;
 
 /**
  * 角色对象 sys_role

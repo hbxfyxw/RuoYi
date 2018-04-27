@@ -1,12 +1,10 @@
 package com.ruoyi.project.fpgl.fpcx.domain;
 
-import com.ruoyi.framework.web.page.PageDomain;
+import com.ruoyi.framework.web.domain.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 /**
  * 操作日志记录 oper_log
@@ -15,7 +13,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name="t_fpzb")
-public class Fpzb extends PageDomain
+public class Fpzb extends BaseEntity
 {
     //发票通用信息
     @Id
