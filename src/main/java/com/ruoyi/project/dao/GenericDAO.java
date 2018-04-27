@@ -33,7 +33,13 @@ public interface GenericDAO<T, ID extends Serializable>
 
     Long getCount(CriteriaQuery<Long> criteria, Root<T> root,Predicate[] predicate);
 
+    T save(T entity);
+
+    T saveAndFlush(T entity);
+
     T makePersistent(T entity);
+
+    void flush();
 
     void makeTransient(T entity);
 

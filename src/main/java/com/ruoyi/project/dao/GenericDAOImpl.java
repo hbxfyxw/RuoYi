@@ -1,6 +1,7 @@
 package com.ruoyi.project.dao;
 
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
@@ -63,10 +64,9 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
 
     @Override
     public Long getCount(CriteriaQuery<Long> criteria,Root<T> root,Predicate[] predicates) {
+        criteria.select(criteriaBuilder.count(root));
         if(null != predicates){
-            criteria.select(criteriaBuilder.count(root)).where(predicates);
-        }else{
-            criteria.select(criteriaBuilder.count(root));
+            criteria.where(predicates);
         }
         return em.createQuery(criteria).getSingleResult();
     }
@@ -86,6 +86,26 @@ public abstract class GenericDAOImpl<T, ID extends Serializable>
     public void makeTransient(T instance) {
         em.remove(instance);
     }
+
+    @Override
+    public T save(T entity){
+        em.persist(entity);
+        return entity;
+    }
+
+    @Override
+    public T saveAndFlush(T entity){
+        em.persist(entity);
+        flush();
+        return entity;
+    }
+
+    @Override
+    public void flush() {
+        em.flush();
+    }
+
+
     // ...
 
 }

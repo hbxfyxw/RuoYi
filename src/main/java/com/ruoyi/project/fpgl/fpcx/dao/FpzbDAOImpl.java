@@ -55,7 +55,7 @@ public class FpzbDAOImpl extends GenericDAOImpl<Fpzb, String>
         List<Predicate> predicates = new ArrayList<Predicate>();
         String searchVal = fpzb.getSearchValue();
         if(null != fpzb.getSearchValue() && !StringUtils.isBlank(searchVal)){
-            predicates.add(criteriaBuilder.or(criteriaBuilder.equal(i.get(Fpzb_.fphm),searchVal),
+            predicates.add(criteriaBuilder.or(criteriaBuilder.like(i.get(Fpzb_.fphm),"%"+searchVal + "%"),
                     criteriaBuilder.equal(i.get(Fpzb_.fpdm),searchVal)));
         }
         if(predicates.size() == 0)

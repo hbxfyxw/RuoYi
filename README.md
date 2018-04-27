@@ -5,3 +5,5 @@ https://blog.codeingboy.me/how-to-configure-hibernate-jpa-annotation-processor-i
 
 JPA DAO 封装：
 https://blog.csdn.net/llixiangjian/article/details/54612563
+
+借鉴：Spring-Data-JPA 
