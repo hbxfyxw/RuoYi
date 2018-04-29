@@ -65,7 +65,7 @@ public interface IRoleService
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int batchDeleteRole(Long[] ids);
+    public boolean batchDeleteRole(Long[] ids);
 
     /**
      * 保存角色信息
@@ -73,6 +73,6 @@ public interface IRoleService
      * @param role 角色信息
      * @return 结果
      */
-    public int saveRole(Role role);
+    public boolean saveRole(Role role);
 
 }

@@ -1,10 +1,7 @@
 package com.ruoyi.project.system.role.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
@@ -83,7 +80,7 @@ public class RoleServiceImpl implements IRoleService
         {
             if (null != perms)
             {
-                permsSet.addAll(Arrays.asList(perm.getRoleKey().trim().split(",")));
+                permsSet.addAll(Arrays.asList(perm.getRoleKey().toString().trim().split(",")));
             }
         }
         return permsSet;
@@ -159,10 +156,18 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public int batchDeleteRole(Long[] ids)
+    public boolean batchDeleteRole(Long[] ids)
     {
-        String idstr = "(" + StringUtils.join(ids,",") + ")";
-        return roleDao.batchDeleteRole(idstr);
+        List<Role> roles = new ArrayList<>();
+        for(Long id : ids){
+            Role temp = new Role();
+            temp.setRoleId(id);
+            roles.add(temp);
+        }
+        roleDao.deleteInBatch(roles);
+        return true;
+        //String idstr = StringUtils.join(ids,",");
+        //return roleDao.batchDeleteRole(idstr);
     }
 
     /**
@@ -172,7 +177,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
-    public int saveRole(Role role)
+    public boolean saveRole(Role role)
     {
         Long roleId = role.getRoleId();
         if (null != roleId)
@@ -197,9 +202,8 @@ public class RoleServiceImpl implements IRoleService
      * 新增角色菜单信息
      * 
      */
-    public int insertRoleMenu(Role role)
+    public boolean insertRoleMenu(Role role)
     {
-        int rows = 1;
         // 新增用户与角色管理
         List<RoleMenu> list = new ArrayList<RoleMenu>();
         for (Long menuId : role.getMenuIds())
@@ -211,11 +215,9 @@ public class RoleServiceImpl implements IRoleService
         }
         if (list.size() > 0)
         {
-            for(RoleMenu roleMenu:list){
-                //rows = roleMenuDao.save(roleMenu);
-            }
+            roleMenuDao.save(list);
         }
-        return rows;
+        return true;
     }
 
 }

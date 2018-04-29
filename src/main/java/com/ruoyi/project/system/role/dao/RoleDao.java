@@ -1,11 +1,13 @@
 package com.ruoyi.project.system.role.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.framework.web.dao.BaseDao;
 import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.role.domain.Role;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -25,10 +27,10 @@ public interface RoleDao extends BaseDao<Role, Long>
      * @param userId 用户ID
      * @return 角色列表
      */
-    @Query(value = "SELECT r.role_id, r.role_name, r.role_key FROM sys_user " +
+    @Query(value = "SELECT r.* FROM sys_user u " +
             "LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id " +
             "LEFT JOIN sys_role r ON ur.role_id = r.role_id " +
-            "WHERE ur.user_id = :userId", nativeQuery = true)
+            "WHERE ur.user_id = ?1",nativeQuery = true)
     public List<Role> selectRolesByUserId(Long userId);
 
 
@@ -48,7 +50,7 @@ public interface RoleDao extends BaseDao<Role, Long>
      * @return 结果
      */
     @Modifying
-    @Query(value = "delete from sys_role where role_id in :ids", nativeQuery = true)
-    public int batchDeleteRole(String ids);
+    @Query(value = "delete from sys_role where role_id in (?1)", nativeQuery = true)
+    public boolean batchDeleteRole(String ids);
     
 }

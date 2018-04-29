@@ -2,10 +2,7 @@ package com.ruoyi.project.system.role.domain;
 
 import com.ruoyi.framework.web.domain.BaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 角色和菜单关联 sys_role_menu
@@ -18,8 +15,13 @@ public class RoleMenu extends BaseEntity
 {
     /** 角色ID */
     @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "role_id")
     private Long roleId;
+
     /** 菜单ID */
     @Column(name = "menu_id")
     private Long menuId;

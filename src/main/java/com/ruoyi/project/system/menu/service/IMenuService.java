@@ -75,6 +75,6 @@ public interface IMenuService
      * @param menu 菜单信息
      * @return 结果
      */
-    public int saveMenu(Menu menu);
+    public boolean saveMenu(Menu menu);
 
 }

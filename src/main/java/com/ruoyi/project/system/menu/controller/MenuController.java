@@ -105,7 +105,7 @@ public class MenuController extends BaseController
     @ResponseBody
     public JSON save(Menu menu)
     {
-        if (menuService.saveMenu(menu) > 0)
+        if (menuService.saveMenu(menu))
         {
             return JSON.ok();
         }

@@ -19,37 +19,49 @@ public class Role extends BaseEntity
     /** 角色ID */
     @Id
     @Column(name = "role_id")
+    @GeneratedValue
     private Long roleId;
+
     /** 角色名 */
     @Column(name = "role_name")
     private String roleName;
+
     /** 角色权限 */
     @Column(name = "role_key")
     private String roleKey;
+
     /** 角色排序 */
     @Column(name = "role_sort")
     private String roleSort;
+
     /** 角色状态:0正常,1禁用 */
     @Column(name = "status")
     private int status;
+
     /** 创建者 */
     @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
     @Column(name = "create_time")
     private Date createTime;
+
     /** 更新时间 */
     @Column(name = "update_time")
     private Date updateTime;
+
     /** 更新者 */
     @Column(name = "update_by")
     private String updateBy;
+
     /** 备注 */
     @Column(name = "remark")
     private String remark;
+
     /** 用户是否存在此角色标识 默认不存在 */
     @Transient
     private boolean flag = false;
+
     /** 菜单组 */
     private Long[] menuIds;
 

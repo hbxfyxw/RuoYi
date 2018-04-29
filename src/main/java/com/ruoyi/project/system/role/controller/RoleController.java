@@ -83,7 +83,7 @@ public class RoleController extends BaseController
     @ResponseBody
     public JSON save(Role role)
     {
-        if (roleService.saveRole(role) > 0)
+        if (roleService.saveRole(role))
         {
             return JSON.ok();
         }
@@ -114,8 +114,7 @@ public class RoleController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = roleService.batchDeleteRole(ids);
-        if (rows > 0)
+        if(roleService.batchDeleteRole(ids))
         {
             return JSON.ok();
         }

@@ -52,7 +52,7 @@ public class MenuServiceImpl implements IMenuService
     @Override
     public List<Menu> selectMenuAll()
     {
-        return menuDao.selectMenuAll();
+        return menuDao.findAll();
     }
 
     /**
@@ -87,7 +87,7 @@ public class MenuServiceImpl implements IMenuService
     {
         Long roleId = role.getRoleId();
         List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
-        List<Menu> menuList = menuDao.selectMenuAll();
+        List<Menu> menuList = menuDao.findAll();
         if (StringUtils.isNotNull(roleId))
         {
             List<String> roleMenuList = menuDao.selectMenuTree(roleId);
@@ -109,7 +109,7 @@ public class MenuServiceImpl implements IMenuService
     public LinkedHashMap<String, String> selectPermsAll()
     {
         LinkedHashMap<String, String> section = new LinkedHashMap<>();
-        List<Menu> permissions = menuDao.selectMenuAll();
+        List<Menu> permissions = menuDao.findAll();
         if (StringUtils.isNotEmpty(permissions))
         {
             for (Menu menu : permissions)
@@ -177,19 +177,20 @@ public class MenuServiceImpl implements IMenuService
      * @return 结果
      */
     @Override
-    public int saveMenu(Menu menu)
+    public boolean saveMenu(Menu menu)
     {
         Long menuId = menu.getMenuId();
         if (StringUtils.isNotNull(menuId))
         {
             menu.setUpdateBy(ShiroUtils.getLoginName());
-            return menuDao.updateMenu(menu);
+            menuDao.save(menu);
         }
         else
         {
             menu.setCreateBy(ShiroUtils.getLoginName());
-            return menuDao.insertMenu(menu);
+            menuDao.save(menu);
         }
+        return true;
     }
 
 }

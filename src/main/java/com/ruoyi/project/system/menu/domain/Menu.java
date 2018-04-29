@@ -16,47 +16,62 @@ public class Menu extends BaseEntity
 {
     /** 菜单ID */
     @Id
+    @GeneratedValue
     @Column(name = "menu_id")
     private Long menuId;
+
     /** 菜单名称 */
     @Column(name = "menu_name")
     private String menuName;
+
     /** 父菜单名称 */
     @Transient
     private String parentName;
+
     /** 父菜单ID */
     @Column(name = "parent_id")
     private Long parentId;
+
     /** 显示顺序 */
     @Column(name = "order_num")
     private String orderNum;
+
     /** 菜单URL */
     @Column(name = "url")
     private String url;
+
     /** 类型:0目录,1菜单,2按钮 */
     @Column(name = "menu_type")
     private String menuType;
+
     /** 菜单状态:0显示,1隐藏 */
     @Column(name = "visible")
     private int visible;
+
     /** 权限字符串 */
     @Column(name = "perms")
     private String perms;
+
     /** 菜单图标 */
     @Column(name = "icon")
     private String icon;
+
     /** 创建者 */
     @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
     @Column(name = "create_time")
     private String createTime;
+
     /** 更新时间 */
     @Column(name = "update_time")
     private String updateTime;
+
     /** 更新者 */
     @Column(name = "update_by")
     private String updateBy;
+
     /** 备注 */
     @Column(name = "remark")
     private String remark;
