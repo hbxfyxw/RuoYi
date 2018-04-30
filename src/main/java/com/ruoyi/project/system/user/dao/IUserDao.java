@@ -38,6 +38,9 @@ public interface IUserDao extends BaseDao<User, Long>
             "and dept_id IN (SELECT dept_id FROM sys_dept WHERE dept_id = ?2 OR parent_id = ?2)",nativeQuery = true)
     public List<User> selectUserListInDept(String searchValue,Long deptId);
 
+    @Query(value = "select * from sys_user where dept_id IN (SELECT dept_id FROM sys_dept WHERE dept_id = ?1 OR parent_id = ?1)",nativeQuery = true)
+    public List<User> selectUserListInDeptA(Long deptId);
+
 
     /**
      * 通过用户名查询用户

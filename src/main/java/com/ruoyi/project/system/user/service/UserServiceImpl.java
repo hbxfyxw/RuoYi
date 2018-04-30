@@ -72,6 +72,10 @@ public class UserServiceImpl implements IUserService
             }else{
                 type = 2;//无部门限制
             }
+        }else{
+            if(null != user.getDeptId() && null != user.getParentId() && user.getParentId() != 0L){
+                type = 3; //带有部门限制
+            }
         }
         if(0 == type){
             pageUser = userDao.findAll(pageRequest);
@@ -96,7 +100,11 @@ public class UserServiceImpl implements IUserService
             pageUser = userDao.findAll(spec,pageRequest);
             rspData.setRows(pageUser.getContent());
             rspData.setTotal(pageUser.getTotalElements());
-        }else{
+        }else if (3 == type){
+            List<User> lu = userDao.selectUserListInDeptA(user.getParentId());
+            rspData.setRows(lu);
+            rspData.setTotal(lu.size());
+        } else{
             List<User> lu = userDao.selectUserListInDept(user.getSearchValue(),user.getParentId());
             rspData.setRows(lu);
             rspData.setTotal(lu.size());
