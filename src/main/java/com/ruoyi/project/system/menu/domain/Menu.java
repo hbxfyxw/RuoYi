@@ -25,7 +25,7 @@ public class Menu extends BaseEntity
     private String menuName;
 
     /** 父菜单名称 */
-    @Transient
+    @Column(name = "parent_name")
     private String parentName;
 
     /** 父菜单ID */

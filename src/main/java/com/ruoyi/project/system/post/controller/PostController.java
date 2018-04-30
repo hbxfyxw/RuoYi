@@ -63,7 +63,7 @@ public class PostController extends BaseController
         {
             return JSON.error("岗位不存在");
         }
-        if (postService.deletePostById(postId) > 0)
+        if (postService.deletePostById(postId))
         {
             return JSON.ok();
         }
@@ -76,8 +76,7 @@ public class PostController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = postService.batchDeletePost(ids);
-        if (rows > 0)
+        if (postService.batchDeletePost(ids))
         {
             return JSON.ok();
         }
@@ -117,7 +116,7 @@ public class PostController extends BaseController
     @ResponseBody
     public JSON save(Post post)
     {
-        if (postService.savePost(post) > 0)
+        if (postService.savePost(post))
         {
             return JSON.ok();
         }

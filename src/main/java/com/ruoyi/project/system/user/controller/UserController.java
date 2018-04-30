@@ -55,9 +55,7 @@ public class UserController extends BaseController
     @ResponseBody
     public TableDataInfo list(User user)
     {
-        setPageInfo(user);
-        List<User> list = userService.selectUserList(user);
-        return getDataTable(list);
+        return  userService.selectUserList(getPageRequest(user),user);
     }
 
     /**
@@ -108,8 +106,7 @@ public class UserController extends BaseController
     @ResponseBody
     public JSON resetPwd(User user)
     {
-        int rows = userService.updateUser(user);
-        if (rows > 0)
+        if (userService.updateUser(user))
         {
             return JSON.ok();
         }
@@ -127,7 +124,7 @@ public class UserController extends BaseController
         {
             return JSON.error("用户不存在");
         }
-        if (userService.deleteUserById(userId) > 0)
+        if (userService.deleteUserById(userId))
         {
             return JSON.ok();
         }
@@ -140,8 +137,7 @@ public class UserController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = userService.batchDeleteUser(ids);
-        if (rows > 0)
+        if (userService.batchDeleteUser(ids))
         {
             return JSON.ok();
         }
@@ -157,7 +153,7 @@ public class UserController extends BaseController
     @ResponseBody
     public JSON save(User user)
     {
-        if (userService.saveUser(user) > 0)
+        if (userService.saveUser(user))
         {
             return JSON.ok();
         }

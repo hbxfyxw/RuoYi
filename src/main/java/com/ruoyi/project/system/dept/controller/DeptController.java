@@ -81,7 +81,7 @@ public class DeptController
     @ResponseBody
     public JSON save(Dept dept)
     {
-        if (deptService.saveDept(dept) > 0)
+        if (deptService.saveDept(dept))
         {
             return JSON.ok();
         }
@@ -97,7 +97,7 @@ public class DeptController
     @ResponseBody
     public JSON remove(@PathVariable("deptId") Long deptId)
     {
-        if (deptService.selectDeptCount(deptId) > 0)
+        if (deptService.selectDeptCount(deptId))
         {
             return JSON.error(1, "存在下级部门,不允许删除");
         }
@@ -106,7 +106,7 @@ public class DeptController
         {
             return JSON.error(1, "部门存在用户,不允许删除");
         }
-        if (deptService.deleteDeptById(deptId) > 0)
+        if (deptService.deleteDeptById(deptId))
         {
             return JSON.ok();
         }

@@ -59,7 +59,7 @@ public interface IMenuService
      * @param menuId 菜单ID
      * @return 结果
      */
-    public int deleteMenuById(Long menuId);
+    public boolean deleteMenuById(Long menuId);
 
     /**
      * 根据菜单ID查询信息

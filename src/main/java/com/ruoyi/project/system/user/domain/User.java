@@ -1,54 +1,96 @@
 package com.ruoyi.project.system.user.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.project.system.dept.domain.Dept;
 
+import javax.persistence.*;
 import java.util.Arrays;
 
 /**
  * 用户对象 sys_user
  * 
- * @author ruoyi
  */
-public class User extends PageDomain
+@Entity
+@Table(name="sys_user")
+public class User extends BaseEntity
 {
     /** 用户ID */
+    @Id
+    @GeneratedValue
+    @Column(name = "user_id")
     private Long userId;
+
     /** 部门ID */
+    @Column(name = "dept_id")
     private Long deptId;
+
     /** 部门父ID */
+    @Column(name = "parent_id")
     private Long parentId;
+
     /** 登录名 */
+    @Column(name = "login_name")
     private String loginName;
+
     /** 用户名称 */
+    @Column(name = "user_name")
     private String userName;
+
     /** 用户邮箱 */
+    @Column(name = "email_name")
     private String email;
+
     /** 手机号码 */
+    @Column(name = "phone_number")
     private String phonenumber;
+
     /** 密码 */
+    @Column(name = "password")
     private String password;
+
     /** 盐加密 */
+    @Column(name = "salt")
     private String salt;
+
     /** 类型:Y默认用户,N非默认用户 */
+    @Column(name = "user_type" ,insertable = false,updatable = false,columnDefinition="varchar(1) default 'N'")
     private String userType;
+
     /** 帐号状态:0正常,1禁用 */
+    @Column(name = "status")
     private int status;
+
     /** 拒绝登录描述 */
+    @Column(name = "refuse_des")
     private String refuseDes;
+
     /** 创建者 */
+    @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
+    @Column(name = "create_time")
     private String createTime;
+
     /** 更新者 */
+    @Column(name = "update_by")
     private String updateBy;
+
     /** 更新时间 */
+    @Column(name = "update_time")
     private String updateTime;
+
     /** 部门对象 */
+    @Transient
     private Dept dept;
+
     /** 角色组 */
+    @Transient
     private Long[] roleIds;
+
     /** 岗位组 */
+    @Transient
     private Long[] postIds;
 
     public Long getUserId() {

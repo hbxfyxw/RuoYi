@@ -4,12 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.ruoyi.project.system.role.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Repository;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.dept.dao.IDeptDao;
 import com.ruoyi.project.system.dept.domain.Dept;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 部门管理 服务实现
@@ -30,7 +38,7 @@ public class DeptServiceImpl implements IDeptService
     @Override
     public List<Dept> selectDeptAll()
     {
-        return deptDao.selectDeptAll();
+        return deptDao.findAll();
     }
 
     /**
@@ -42,7 +50,7 @@ public class DeptServiceImpl implements IDeptService
     public List<Map<String, Object>> selectDeptTree()
     {
         List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
-        List<Dept> deptList = deptDao.selectDeptAll();
+        List<Dept> deptList = deptDao.findAll();
 
         for (Dept dept : deptList)
         {
@@ -62,11 +70,23 @@ public class DeptServiceImpl implements IDeptService
      * @return 结果
      */
     @Override
-    public int selectDeptCount(Long parentId)
+    public boolean selectDeptCount(Long parentId)
     {
-        Dept dept = new Dept();
-        dept.setParentId(parentId);
-        return deptDao.selectDeptCount(dept);
+        Specification<Dept> spec = new Specification<Dept>() {
+            @Override
+            public Predicate toPredicate(Root<Dept> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (null != parentId) {
+                    Predicate predicateP = builder.equal(root.<Long> get("parentId"), parentId);
+                    predicates.add(predicateP);
+                }
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        return deptDao.count(spec) > 0L ? true : false;
     }
 
     /**
@@ -89,9 +109,10 @@ public class DeptServiceImpl implements IDeptService
      * @return 结果
      */
     @Override
-    public int deleteDeptById(Long deptId)
+    public boolean deleteDeptById(Long deptId)
     {
-        return deptDao.deleteDeptById(deptId);
+        deptDao.delete(deptId);
+        return true;
     }
 
     /**
@@ -101,18 +122,19 @@ public class DeptServiceImpl implements IDeptService
      * @return 结果
      */
     @Override
-    public int saveDept(Dept dept)
+    public boolean saveDept(Dept dept)
     {
         if (StringUtils.isNotNull(dept.getDeptId()))
         {
             dept.setUpdateBy(ShiroUtils.getLoginName());
-            return deptDao.updateDept(dept);
+             deptDao.save(dept);
         }
         else
         {
             dept.setCreateBy(ShiroUtils.getLoginName());
-            return deptDao.insertDept(dept);
+            deptDao.save(dept);
         }
+        return true;
     }
 
     /**

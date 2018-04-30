@@ -10,7 +10,6 @@ import java.util.Date;
 /**
  * 角色对象 sys_role
  * 
- * @author ruoyi
  */
 @Entity
 @Table(name="sys_role")
@@ -18,8 +17,8 @@ public class Role extends BaseEntity
 {
     /** 角色ID */
     @Id
-    @Column(name = "role_id")
     @GeneratedValue
+    @Column(name = "role_id")
     private Long roleId;
 
     /** 角色名 */

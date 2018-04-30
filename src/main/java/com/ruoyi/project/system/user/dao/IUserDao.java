@@ -1,16 +1,21 @@
 package com.ruoyi.project.system.user.dao;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.dao.BaseDao;
+import com.ruoyi.project.system.role.domain.Role;
 import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.user.domain.User;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 /**
  * 用户表 数据层
  * 
  * @author ruoyi
  */
-@Mapper
-public interface IUserDao
+@Repository
+public interface IUserDao extends BaseDao<User, Long>
 {
 
     /**
@@ -19,7 +24,20 @@ public interface IUserDao
      * @param user 用户信息
      * @return 用户信息集合信息
      */
-    public List<User> selectUserList(User user);
+    @Query(value = "select * from sys_user where login_name = ?1",nativeQuery = true)
+    public List<User> selectUserList(String searchValue);
+
+
+    /**
+     * 根据条件查询用户列表
+     * @param searchValue
+     * @param deptId
+     * @return
+     */
+    @Query(value = "select * from sys_user where login_name = ?1 " +
+            "and dept_id IN (SELECT dept_id FROM sys_dept WHERE dept_id = ?2 OR parent_id = ?2)",nativeQuery = true)
+    public List<User> selectUserListInDept(String searchValue,Long deptId);
+
 
     /**
      * 通过用户名查询用户
@@ -27,6 +45,11 @@ public interface IUserDao
      * @param userName 用户名
      * @return 用户对象信息
      */
+    @Query(value = "select  u.* " +
+            "from sys_user u " +
+            "left join sys_dept d on u.dept_id = d.dept_id " +
+            "left join sys_user_role ur on u.user_id = ur.user_id " +
+            "where u.login_name = ?1",nativeQuery = true)
     public User selectUserByName(String userName);
 
     /**
@@ -35,46 +58,11 @@ public interface IUserDao
      * @param userId 用户ID
      * @return 用户对象信息
      */
+    @Query(value = "select  u.* " +
+            "from sys_user u " +
+            "left join sys_dept d on u.dept_id = d.dept_id " +
+            "left join sys_user_role ur on u.user_id = ur.user_id " +
+            "where u.user_id = ?1",nativeQuery = true)
     public User selectUserById(Long userId);
-
-    /**
-     * 通过用户ID删除用户
-     * 
-     * @param userId 用户ID
-     * @return 结果
-     */
-    public int deleteUserById(Long userId);
-
-    /**
-     * 批量删除用户信息
-     * 
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int batchDeleteUser(Long[] ids);
-
-    /**
-     * 修改用户信息
-     * 
-     * @param user 用户信息
-     * @return 结果
-     */
-    public int updateUser(User user);
-
-    /**
-     * 新增用户信息
-     * 
-     * @param user 用户信息
-     * @return 结果
-     */
-    public int insertUser(User user);
-
-    /**
-     * 校验用户名称是否唯一
-     * 
-     * @param loginName 登录名称
-     * @return 结果
-     */
-    public int checkNameUnique(String loginName);
 
 }

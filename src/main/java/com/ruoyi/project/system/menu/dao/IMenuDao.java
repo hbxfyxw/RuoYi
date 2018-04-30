@@ -6,6 +6,7 @@ import com.ruoyi.framework.web.dao.BaseDao;
 import com.ruoyi.project.system.role.domain.Role;
 import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.menu.domain.Menu;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -64,8 +65,9 @@ public interface IMenuDao extends BaseDao<Menu, Long>
      * @param menuId 菜单ID
      * @return 结果
      */
+    @Modifying
     @Query(value = "delete from sys_menu where menu_id = ?1 or parent_id = ?1 ",nativeQuery = true)
-    public int deleteMenuById(Long menuId);
+    public void deleteMenuById(Long menuId);
 
     /**
      * 根据菜单ID查询信息
@@ -73,9 +75,9 @@ public interface IMenuDao extends BaseDao<Menu, Long>
      * @param menuId 菜单ID
      * @return 菜单信息
      */
-    @Query(value="SELECT t.menu_id, t.parent_id, t.menu_name, t.order_num, t.url, t.menu_type, t.visible, t.perms, t.icon, t.remark," +
+    @Query(value="SELECT t.menu_id,t.menu_name,t.parent_id,t.order_num,t.url,t.menu_type,t.visible,t.perms,t.icon,t.create_by,t.create_time,t.update_time,t.update_by,t.remark," +
             "(SELECT menu_name FROM sys_menu WHERE menu_id = t.parent_id) parent_name " +
-            "FROM sys_menu where t.menu_id = ?1",nativeQuery = true)
+            "FROM sys_menu t where t.menu_id = ?1",nativeQuery = true)
     public Menu selectMenuById(Long menuId);
 
 

@@ -1,12 +1,21 @@
 package com.ruoyi.project.system.post.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.project.system.role.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.post.dao.IPostDao;
 import com.ruoyi.project.system.post.domain.Post;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 岗位信息 服务层处理
@@ -28,7 +37,23 @@ public class PostServiceImpl implements IPostService
     @Override
     public List<Post> selectPostList(Post post)
     {
-        return postDao.selectPostList(post);
+        String keyword = post.getSearchValue();
+        Specification<Post> spec = new Specification<Post>() {
+            @Override
+            public Predicate toPredicate(Root<Post> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("postCode"), "%/" + keyword + "%", '/');
+                    Predicate predicateP = builder.like(root.<String> get("postName"), "%/" + keyword + "%", '/');
+                    predicates.add(builder.or(predicateT, predicateP));
+                }
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        return postDao.findAll(spec);
     }
 
     /**
@@ -39,7 +64,7 @@ public class PostServiceImpl implements IPostService
     @Override
     public List<Post> selectPostAll()
     {
-        return postDao.selectPostAll();
+        return postDao.findAll();
     }
 
     /**
@@ -52,7 +77,7 @@ public class PostServiceImpl implements IPostService
     public List<Post> selectPostsByUserId(Long userId)
     {
         List<Post> userPosts = postDao.selectPostsByUserId(userId);
-        List<Post> posts = postDao.selectPostAll();
+        List<Post> posts = postDao.findAll();
         for (Post post : posts)
         {
             for (Post userRole : userPosts)
@@ -78,7 +103,7 @@ public class PostServiceImpl implements IPostService
     @Override
     public Post selectPostById(Long postId)
     {
-        return postDao.selectPostById(postId);
+        return postDao.findOne(postId);
     }
 
     /**
@@ -88,9 +113,10 @@ public class PostServiceImpl implements IPostService
      * @return 结果
      */
     @Override
-    public int deletePostById(Long postId)
+    public boolean deletePostById(Long postId)
     {
-        return postDao.deletePostById(postId);
+        postDao.delete(postId);
+        return true;
     }
 
     /**
@@ -100,9 +126,16 @@ public class PostServiceImpl implements IPostService
      * @return 结果
      */
     @Override
-    public int batchDeletePost(Long[] ids)
+    public boolean batchDeletePost(Long[] ids)
     {
-        return postDao.batchDeletePost(ids);
+        List<Post> lp = new ArrayList<>();
+        for(Long id : ids){
+            Post post = new Post();
+            post.setPostId(id);
+            lp.add(post);
+        }
+        postDao.deleteInBatch(lp);
+        return true;
     }
 
     /**
@@ -112,7 +145,7 @@ public class PostServiceImpl implements IPostService
      * @return 结果
      */
     @Override
-    public int savePost(Post post)
+    public boolean savePost(Post post)
     {
         Long postId = post.getPostId();
         int count = 0;
@@ -120,15 +153,15 @@ public class PostServiceImpl implements IPostService
         {
             post.setUpdateBy(ShiroUtils.getLoginName());
             // 修改岗位信息
-            count = postDao.updatePost(post);
+            postDao.save(post);
         }
         else
         {
             post.setCreateBy(ShiroUtils.getLoginName());
             // 新增岗位信息
-            count = postDao.insertPost(post);
+            postDao.save(post);
         }
-        return count;
+        return true;
     }
 
 }

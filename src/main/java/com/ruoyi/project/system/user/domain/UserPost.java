@@ -1,16 +1,38 @@
 package com.ruoyi.project.system.user.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
+
+import javax.persistence.*;
+
 /**
  * 用户和岗位关联 sys_user_post
  * 
- * @author ruoyi
  */
-public class UserPost
+
+@Entity
+@Table(name="sys_user_post")
+public class UserPost extends BaseEntity
 {
+    @Id
+    @GeneratedValue
+    @Column(name = "id")
+    private Long id;
+
     /** 用户ID */
+    @Column(name = "user_id")
     private Long userId;
+
     /** 岗位ID */
+    @Column(name = "post_id")
     private Long postId;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getUserId() {
         return userId;

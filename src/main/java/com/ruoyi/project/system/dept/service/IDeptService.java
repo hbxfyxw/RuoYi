@@ -33,7 +33,7 @@ public interface IDeptService
      * @param parentId 父部门ID
      * @return 结果
      */
-    public int selectDeptCount(Long parentId);
+    public boolean selectDeptCount(Long parentId);
 
     /**
      * 查询部门是否存在用户
@@ -49,7 +49,7 @@ public interface IDeptService
      * @param deptId 部门ID
      * @return 结果
      */
-    public int deleteDeptById(Long deptId);
+    public boolean deleteDeptById(Long deptId);
 
     /**
      * 保存部门信息
@@ -57,7 +57,7 @@ public interface IDeptService
      * @param dept 部门信息
      * @return 结果
      */
-    public int saveDept(Dept dept);
+    public boolean saveDept(Dept dept);
 
     /**
      * 根据部门ID查询信息

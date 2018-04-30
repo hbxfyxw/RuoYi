@@ -1,38 +1,70 @@
 package com.ruoyi.project.system.dept.domain;
 
 
+import com.ruoyi.framework.web.domain.BaseEntity;
+
+import javax.persistence.*;
+
 /**
  * 部门对象 sys_dept
  * 
- * @author ruoyi
  */
-public class Dept
+@Entity
+@Table(name="sys_dept")
+public class Dept extends BaseEntity
 {
     /** 部门ID */
+    @Id
+    @GeneratedValue
+    @Column(name = "dept_id")
     private Long deptId;
+
     /** 父部门ID */
+    @Column(name = "parent_id")
     private Long parentId;
+
     /** 部门名称 */
+    @Column(name = "dept_name")
     private String deptName;
+
     /** 显示顺序 */
+    @Column(name = "order_num")
     private String orderNum;
+
     /** 负责人 */
+    @Column(name = "leader")
     private String leader;
+
     /** 联系电话 */
+    @Column(name = "phone")
     private String phone;
+
     /** 邮箱 */
+    @Column(name = "email")
     private String email;
+
     /** 部门状态:0正常,1停用 */
+    @Column(name = "status")
     private int status;
+
     /** 父部门名称 */
+    @Column(name = "parent_name")
     private String parentName;
+
     /** 创建者 */
+    @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
+    @Column(name = "create_time")
     private String createTime;
+
     /** 更新者 */
+    @Column(name = "update_by")
     private String updateBy;
+
     /** 更新时间 */
+    @Column(name = "update_time")
     private String updateTime;
 
     public Long getDeptId() {

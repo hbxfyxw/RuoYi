@@ -2,7 +2,10 @@ package com.ruoyi.project.system.role.service;
 
 import java.util.List;
 import java.util.Set;
+
+import com.ruoyi.framework.web.dao.BaseDao;
 import com.ruoyi.project.system.role.domain.Role;
+import com.ruoyi.project.system.user.domain.User;
 
 /**
  * 角色业务层

@@ -60,7 +60,7 @@ public class MenuController extends BaseController
     @ResponseBody
     public JSON remove(@PathVariable("menuId") Long menuId)
     {
-        if (menuService.deleteMenuById(menuId) > 0)
+        if (menuService.deleteMenuById(menuId))
         {
             return JSON.ok();
         }

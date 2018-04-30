@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.TreeUtils;
@@ -17,6 +18,12 @@ import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.menu.dao.IMenuDao;
 import com.ruoyi.project.system.menu.domain.Menu;
 import com.ruoyi.project.system.role.domain.Role;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 菜单 业务层处理
@@ -153,9 +160,11 @@ public class MenuServiceImpl implements IMenuService
      * @return 结果
      */
     @Override
-    public int deleteMenuById(Long menuId)
+    @Transactional
+    public boolean deleteMenuById(Long menuId)
     {
-        return menuDao.deleteMenuById(menuId);
+         menuDao.delete(menuId);
+         return true;
     }
 
     /**

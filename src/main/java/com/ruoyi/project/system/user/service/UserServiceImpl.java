@@ -3,7 +3,15 @@ package com.ruoyi.project.system.user.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import com.ruoyi.project.system.dept.dao.IDeptDao;
+import com.ruoyi.project.system.post.domain.Post;
+import com.ruoyi.project.system.role.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.constant.UserConstants;
@@ -16,6 +24,13 @@ import com.ruoyi.project.system.user.dao.IUserRoleDao;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserPost;
 import com.ruoyi.project.system.user.domain.UserRole;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.Transient;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 用户 业务层处理
@@ -28,6 +43,9 @@ public class UserServiceImpl implements IUserService
 
     @Autowired
     private IUserDao userDao;
+
+    @Autowired
+    private IDeptDao deptDao;
     
     @Autowired
     private IUserPostDao userPostDao;
@@ -43,9 +61,47 @@ public class UserServiceImpl implements IUserService
      * @return 用户信息集合信息
      */
     @Override
-    public List<User> selectUserList(User user)
+    public TableDataInfo selectUserList(PageRequest pageRequest,User user)
     {
-        return userDao.selectUserList(user);
+        TableDataInfo rspData = new TableDataInfo();
+        Page<User> pageUser = null;
+        int type = 0; //未带有查询条件
+        if(StringUtils.isNotEmpty(user.getSearchValue())){
+            if(null != user.getDeptId() && null != user.getParentId() && user.getParentId() != 0L){
+                type = 1; //带有部门限制
+            }else{
+                type = 2;//无部门限制
+            }
+        }
+        if(0 == type){
+            pageUser = userDao.findAll(pageRequest);
+            pageUser.getContent();
+            rspData.setRows(pageUser.getContent());
+            rspData.setTotal(pageUser.getTotalElements());
+        }else if(2 == type){
+            Specification<User> spec = new Specification<User>() {
+                @Override
+                public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                    List<Predicate> predicates =new ArrayList();
+                    if (StringUtils.isNotEmpty(user.getSearchValue())) {
+                        Predicate predicateT = builder.equal(root.<String> get("loginName"), user.getSearchValue());
+                        predicates.add(predicateT);
+                    }
+                    if (predicates.size() > 0) {
+                        return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                    }
+                    return builder.conjunction();
+                }
+            };
+            pageUser = userDao.findAll(spec,pageRequest);
+            rspData.setRows(pageUser.getContent());
+            rspData.setTotal(pageUser.getTotalElements());
+        }else{
+            List<User> lu = userDao.selectUserListInDept(user.getSearchValue(),user.getParentId());
+            rspData.setRows(lu);
+            rspData.setTotal(lu.size());
+        }
+        return rspData;
     }
 
     /**
@@ -57,7 +113,9 @@ public class UserServiceImpl implements IUserService
     @Override
     public User selectUserByName(String userName)
     {
-        return userDao.selectUserByName(userName);
+        User user =  userDao.selectUserByName(userName);
+        user.setDept(deptDao.findOne(user.getDeptId()));
+        return user;
     }
 
     /**
@@ -69,7 +127,9 @@ public class UserServiceImpl implements IUserService
     @Override
     public User selectUserById(Long userId)
     {
-        return userDao.selectUserById(userId);
+        User user = userDao.selectUserById(userId);
+        user.setDept(deptDao.findOne(user.getDeptId()));
+        return user;
     }
 
     /**
@@ -79,11 +139,12 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    public int deleteUserById(Long userId)
+    public boolean deleteUserById(Long userId)
     {
         // 删除用户与角色关联
         userRoleDao.deleteUserRoleByUserId(userId);
-        return userDao.deleteUserById(userId);
+        userDao.delete(userId);
+        return true;
     }
 
     /**
@@ -93,9 +154,16 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    public int batchDeleteUser(Long[] ids)
+    public boolean batchDeleteUser(Long[] ids)
     {
-        return userDao.batchDeleteUser(ids);
+        List<User> lu = new ArrayList<>();
+        for(Long id: ids){
+            User user = new User();
+            user.setUserId(id);
+            lu.add(user);
+        }
+        userDao.delete(lu);
+        return true;
     }
 
     /**
@@ -105,7 +173,8 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    public int saveUser(User user)
+    @Transactional
+    public boolean saveUser(User user)
     {
         int count = 0;
         Long userId = user.getUserId();
@@ -115,7 +184,7 @@ public class UserServiceImpl implements IUserService
         {
             user.setUpdateBy(ShiroUtils.getLoginName());
             // 修改用户信息
-            count = userDao.updateUser(user);
+            userDao.save(user);
             // 删除用户与角色关联
             userRoleDao.deleteUserRoleByUserId(userId);
             // 新增用户与角色管理
@@ -125,18 +194,16 @@ public class UserServiceImpl implements IUserService
             // 新增用户与岗位管理
             insertUserPost(user);
 
-        }
-        else
-        {
+        } else {
             user.setCreateBy(ShiroUtils.getLoginName());
             // 新增用户信息
-            count = userDao.insertUser(user);
+            userDao.save(user);
             // 新增用户岗位关联
             insertUserPost(user);
             // 新增用户与角色管理
             insertUserRole(user);
         }
-        return count;
+        return true;
     }
 
     /**
@@ -146,11 +213,12 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    public int updateUser(User user)
+    public boolean updateUser(User user)
     {
         String password = new PasswordService().encryptPassword(user.getLoginName(), user.getPassword(), "");
         user.setPassword(password);
-        return userDao.updateUser(user);
+        userDao.save(user);
+        return true;
     }
 
     /**
@@ -171,7 +239,7 @@ public class UserServiceImpl implements IUserService
         }
         if (list.size() > 0)
         {
-            userRoleDao.batchUserRole(list);
+            userRoleDao.save(list);
         }
     }
 
@@ -193,21 +261,34 @@ public class UserServiceImpl implements IUserService
         }
         if (list.size() > 0)
         {
-            userPostDao.batchUserPost(list);
+            userPostDao.save(list);
         }
     }
 
     /**
      * 校验用户名称是否唯一
      * 
-     * @param userName 用户名
      * @return
      */
     @Override
     public String checkNameUnique(String loginName)
     {
-        int count = userDao.checkNameUnique(loginName);
-        if (count > 0)
+        Specification<User> spec = new Specification<User>() {
+            @Override
+            public Predicate toPredicate(Root<User> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(loginName)) {
+                    Predicate predicateT = builder.equal(root.<String> get("loginName"), loginName);
+                    predicates.add(predicateT);
+                }
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Long count = userDao.count(spec);
+        if (count > 0L)
         {
             return UserConstants.NAME_NOT_UNIQUE;
         }
