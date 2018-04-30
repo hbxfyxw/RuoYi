@@ -44,9 +44,7 @@ public class DictDataController extends BaseController
     @ResponseBody
     public TableDataInfo list(DictData dictData)
     {
-        setPageInfo(dictData);
-        List<DictData> list = dictDataService.selectDictDataList(dictData);
-        return getDataTable(list);
+        return dictDataService.selectDictDataList(getPageRequest(dictData),dictData);
     }
 
     /**
@@ -83,7 +81,7 @@ public class DictDataController extends BaseController
     @ResponseBody
     public JSON save(DictData dict)
     {
-        if (dictDataService.saveDictData(dict) > 0)
+        if (dictDataService.saveDictData(dict))
         {
             return JSON.ok();
         }
@@ -96,8 +94,7 @@ public class DictDataController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = dictDataService.batchDeleteDictData(ids);
-        if (rows > 0)
+        if (dictDataService.batchDeleteDictData(ids))
         {
             return JSON.ok();
         }

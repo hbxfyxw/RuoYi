@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.dict.service;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.dict.domain.DictData;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 字典 业务层
@@ -13,12 +16,11 @@ public interface IDictDataService
 
     /**
      * 根据条件分页查询字典数据
-     * 
+     *
      * @param dictData 字典数据信息
      * @return 字典数据集合信息
      */
-    public List<DictData> selectDictDataList(DictData dictData);
-
+    public TableDataInfo selectDictDataList(PageRequest pageRequest, DictData dictData);
     /**
      * 根据字典数据ID查询信息
      * 
@@ -33,7 +35,7 @@ public interface IDictDataService
      * @param ids 需要删除的数据
      * @return 结果
      */
-    public int batchDeleteDictData(Long[] ids);
+    public boolean batchDeleteDictData(Long[] ids);
 
     /**
      * 保存字典数据信息
@@ -41,6 +43,6 @@ public interface IDictDataService
      * @param dictData 字典数据信息
      * @return 结果
      */
-    public int saveDictData(DictData dictData);
+    public boolean saveDictData(DictData dictData);
 
 }

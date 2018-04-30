@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.dict.service;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.dict.domain.DictType;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 字典 业务层
@@ -16,7 +19,7 @@ public interface IDictTypeService
      * @param dictType 字典类型信息
      * @return 字典类型集合信息
      */
-    public List<DictType> selectDictTypeList(DictType dictType);
+    public TableDataInfo selectDictTypeList(PageRequest pageRequest, DictType dictType);
 
     /**
      * 根据字典类型ID查询信息
@@ -32,7 +35,7 @@ public interface IDictTypeService
      * @param ids 需要删除的数据
      * @return 结果
      */
-    public int batchDeleteDictType(Long[] ids);
+    public boolean batchDeleteDictType(Long[] ids);
 
     /**
      * 保存字典类型信息
@@ -40,7 +43,7 @@ public interface IDictTypeService
      * @param dictType 字典类型信息
      * @return 结果
      */
-    public int saveDictType(DictType dictType);
+    public boolean saveDictType(DictType dictType);
 
     /**
      * 校验字典类型称是否唯一

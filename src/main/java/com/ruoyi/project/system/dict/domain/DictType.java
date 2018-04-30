@@ -1,31 +1,53 @@
 package com.ruoyi.project.system.dict.domain;
 
-import com.ruoyi.framework.web.page.PageDomain;
+import com.ruoyi.framework.web.domain.BaseEntity;
+
+import javax.persistence.*;
 
 /**
  * 字典类型对象 sys_dict_type
  * 
- * @author ruoyi
  */
-public class DictType extends PageDomain
+@Entity
+@Table(name="sys_dict_type")
+public class DictType extends BaseEntity
 {
     /** 字典主键 */
+    @Id
+    @GeneratedValue
+    @Column(name = "dict_id")
     private Long dictId;
+
     /** 字典名称 */
+    @Column(name = "dict_name")
     private String dictName;
+
     /** 字典类型 */
+    @Column(name = "dict_type")
     private String dictType;
+
     /** 状态（0正常 1禁用） */
+    @Column(name = "status",insertable = false,updatable = false)
     private int status;
+
     /** 创建者 */
+    @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
+    @Column(name = "create_time")
     private String createTime;
+
     /** 更新者 */
+    @Column(name = "update_by")
     private String updateBy;
+
     /** 更新时间 */
+    @Column(name = "update_time")
     private String updateTime;
+
     /** 备注 */
+    @Column(name = "remark")
     private String remark;
 
     public Long getDictId() {

@@ -1,12 +1,24 @@
 package com.ruoyi.project.system.dict.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.system.dict.domain.DictType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.dict.dao.IDictDataDao;
 import com.ruoyi.project.system.dict.domain.DictData;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 字典 业务层处理
@@ -26,9 +38,38 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 字典数据集合信息
      */
     @Override
-    public List<DictData> selectDictDataList(DictData dictData)
+    public TableDataInfo selectDictDataList(PageRequest pageRequest, DictData dictData)
     {
-        return dictDao.selectDictDataList(dictData);
+        String keyword = dictData.getSearchValue();
+        String dictType = dictData.getDictType();
+        Specification<DictData> spec = new Specification<DictData>() {
+            @Override
+            public Predicate toPredicate(Root<DictData> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("dict_label"), "%/" + keyword + "%", '/');
+                    if (StringUtils.isNotEmpty(dictType)) {
+                        Predicate predicateP = builder.equal(root.<String> get("dictType"), dictType);
+                        predicates.add(builder.or(predicateT, predicateP));
+                    }
+                }else{
+                    if (StringUtils.isNotEmpty(dictType)) {
+                        Predicate predicateP = builder.equal(root.<String> get("dictType"), dictType);
+                        predicates.add(predicateP);
+                    }
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<DictData> pageDictType = dictDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageDictType.getContent());
+        rspData.setTotal(pageDictType.getTotalElements());
+        return rspData;
     }
 
     /**
@@ -40,7 +81,7 @@ public class DictDataServiceImpl implements IDictDataService
     @Override
     public DictData selectDictDataById(Long dictCode)
     {
-        return dictDao.selectDictDataById(dictCode);
+        return dictDao.findDictDataByDictCode(dictCode);
     }
 
     /**
@@ -50,9 +91,16 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 结果
      */
     @Override
-    public int batchDeleteDictData(Long[] ids)
+    public boolean batchDeleteDictData(Long[] ids)
     {
-        return dictDao.batchDeleteDictData(ids);
+        List<DictData> ld = new ArrayList<>();
+        for (Long id : ids) {
+            DictData dictData = new DictData();
+            dictData.setDictCode(id);
+            ld.add(dictData);
+        }
+        dictDao.deleteInBatch(ld);
+        return true;
     }
 
     /**
@@ -62,19 +110,20 @@ public class DictDataServiceImpl implements IDictDataService
      * @return 结果
      */
     @Override
-    public int saveDictData(DictData dictData)
+    public boolean saveDictData(DictData dictData)
     {
         Long dictCode = dictData.getDictCode();
         if (StringUtils.isNotNull(dictCode))
         {
             dictData.setUpdateBy(ShiroUtils.getLoginName());
-            return dictDao.updateDictData(dictData);
+            dictDao.save(dictData);
         }
         else
         {
             dictData.setCreateBy(ShiroUtils.getLoginName());
-            return dictDao.insertDictData(dictData);
+            dictDao.save(dictData);
         }
+        return true;
     }
 
 }

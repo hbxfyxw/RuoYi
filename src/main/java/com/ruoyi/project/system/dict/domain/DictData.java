@@ -1,35 +1,62 @@
 package com.ruoyi.project.system.dict.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
+
+import javax.persistence.*;
 
 /**
  * 字典数据表 sys_dict_data
  * 
- * @author ruoyi
  */
-public class DictData extends PageDomain
+@Entity
+@Table(name="sys_dict_data")
+public class DictData extends BaseEntity
 {
     /** 字典编码 */
+    @Id
+    @GeneratedValue
+    @Column(name = "dict_code")
     private Long dictCode;
+
     /** 字典排序 */
+    @Column(name = "dict_sort")
     private Long dictSort;
+
     /** 字典标签 */
+    @Column(name = "dict_label")
     private String dictLabel;
+
     /** 字典键值 */
+    @Column(name = "dict_value")
     private String dictValue;
+
     /** 字典类型 */
+    @Column(name = "dict_type")
     private String dictType;
+
     /** 状态（0正常 1禁用） */
+    @Column(name = "status",insertable = false,updatable = false)
     private int status;
+
     /** 创建者 */
+    @Column(name = "create_by")
     private String createBy;
+
     /** 创建时间 */
+    @Column(name = "create_time")
     private String createTime;
+
     /** 更新者 */
+    @Column(name = "update_by")
     private String updateBy;
+
     /** 更新时间 */
+    @Column(name = "update_time")
     private String updateTime;
+
     /** 备注 */
+    @Column(name = "remark")
     private String remark;
 
     public Long getDictCode() {

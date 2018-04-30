@@ -1,13 +1,25 @@
 package com.ruoyi.project.system.dict.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.project.system.dict.dao.IDictTypeDao;
 import com.ruoyi.project.system.dict.domain.DictType;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 字典 业务层处理
@@ -27,9 +39,30 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 字典类型集合信息
      */
     @Override
-    public List<DictType> selectDictTypeList(DictType dictType)
+    public TableDataInfo selectDictTypeList(PageRequest pageRequest, DictType dictType)
     {
-        return dictTypeDao.selectDictTypeList(dictType);
+        String keyword = dictType.getSearchValue();
+        Specification<DictType> spec = new Specification<DictType>() {
+            @Override
+            public Predicate toPredicate(Root<DictType> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("dictName"), "%/" + keyword + "%", '/');
+                    Predicate predicateP = builder.equal(root.<String> get("dictType"), keyword);
+                    predicates.add(builder.or(predicateT, predicateP));
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<DictType> pageDictType = dictTypeDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageDictType.getContent());
+        rspData.setTotal(pageDictType.getTotalElements());
+        return rspData;
     }
 
     /**
@@ -41,7 +74,7 @@ public class DictTypeServiceImpl implements IDictTypeService
     @Override
     public DictType selectDictTypeById(Long dictId)
     {
-        return dictTypeDao.selectDictTypeById(dictId);
+        return dictTypeDao.findDictTypeByDictId(dictId);
     }
 
     /**
@@ -51,9 +84,16 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
-    public int batchDeleteDictType(Long[] ids)
+    public boolean batchDeleteDictType(Long[] ids)
     {
-        return dictTypeDao.batchDeleteDictType(ids);
+        List<DictType> ld = new ArrayList<>();
+        for(Long id : ids){
+            DictType dictType = new DictType();
+            dictType.setDictId(id);
+            ld.add(dictType);
+        }
+        dictTypeDao.deleteInBatch(ld);
+        return true;
     }
 
     /**
@@ -63,19 +103,20 @@ public class DictTypeServiceImpl implements IDictTypeService
      * @return 结果
      */
     @Override
-    public int saveDictType(DictType dictType)
+    public boolean saveDictType(DictType dictType)
     {
         Long dictId = dictType.getDictId();
         if (StringUtils.isNotNull(dictId))
         {
             dictType.setUpdateBy(ShiroUtils.getLoginName());
-            return dictTypeDao.updateDictType(dictType);
+             dictTypeDao.save(dictType);
         }
         else
         {
             dictType.setCreateBy(ShiroUtils.getLoginName());
-            return dictTypeDao.insertDictType(dictType);
+            dictTypeDao.save(dictType);
         }
+        return true;
     }
 
     /**
@@ -92,7 +133,7 @@ public class DictTypeServiceImpl implements IDictTypeService
             dict.setDictId(-1L);
         }
         Long dictId = dict.getDictId();
-        DictType dictType = dictTypeDao.checkDictTypeUnique(dict.getDictType());
+        DictType dictType = dictTypeDao.findDictTypeByDictType(dict.getDictType());
         if (StringUtils.isNotNull(dictType) && dictType.getDictId() != dictId)
         {
             return UserConstants.NAME_NOT_UNIQUE;
