@@ -91,7 +91,8 @@ $(function(){
 			showRefresh: true,            // 是否显示刷新按钮
 			showColumns: true,            // 是否显示隐藏某列下拉框
 			showToggle: true,             // 是否显示详细视图和列表视图的切换按钮
-	        cache: false,                 // 是否使用缓存
+	        cache: false, 	              // 是否使用缓存
+            showExport: true,             // 是否支持导出文件
 	        queryParams: function(params) {
 	            return {
 	                // 传递参数查询参数

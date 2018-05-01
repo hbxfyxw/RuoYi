@@ -63,6 +63,21 @@ _ajax = function(url, data, type, r) {
     $.ajax(config)
 };
 
+//对jquery的ajax方法再次封装
+_ajax = function(url, data, type) {
+    var config = {
+        url: url,
+        type: type,
+        dataType: "json",
+        data: data,
+        success: function(result) {
+            simpleSuccess(result);
+        }
+    };
+    $.ajax(config)
+};
+
+
 /** 返回结果处理 */
 function simpleSuccess(result) {
     if (result.code == web_status.SUCCESS) {

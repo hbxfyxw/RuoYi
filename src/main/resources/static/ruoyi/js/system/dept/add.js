@@ -1,51 +1,44 @@
 $("#form-dept-add").validate({
-	rules:{
-		deptName:{
-			required:true,
-		},
-		orderNum:{
-			required:true,
-		},
-	},
-	submitHandler:function(form){
-		update();
-	}
+    rules:{
+        deptName:{
+            required:true,
+            remote: {
+                url: ctx + "system/dept/checkDeptNameUnique",
+                type: "post",
+                dataType: "text",
+                data: {
+                    "deptName" : function() {
+                        return $("input[name='deptName']").val();
+                    }
+                },
+                dataFilter: function(data, type) {
+                    if (data == "0") return true;
+                    else return false;
+                }
+            }
+        },
+        orderNum:{
+            required:true,
+            digits:true
+        },
+    },
+    messages: {
+        "deptName": {
+            remote: "部门已经存在"
+        }
+    },
+    submitHandler:function(form){
+        update();
+    }
 });
 
 function update() {
-	var parentId = $("input[name='parentId']").val();
-	var orderNum = $("input[name='orderNum']").val();
-	var deptName = $("input[name='deptName']").val();
-	var leader = $("input[name='leader']").val();
-	var phone = $("input[name='phone']").val();
-	var email = $("input[name='email']").val();
-	var status = $("input[name='status']").is(':checked') == true ? 0 : 1;
-	$.ajax({
-		cache : true,
-		type : "POST",
-		url : "/system/dept/save",
-		data : {
-			"parentId": parentId,
-			"deptName": deptName,
-			"orderNum": orderNum,
-			"leader": leader,
-			"phone": phone,
-			"email": email,
-			"status": status
-		},
-		async : false,
-		error : function(request) {
-			$.modalAlert("系统错误", "error");
-		},
-		success : function(data) {
-			if (data.code == 0) {
-				parent.layer.msg('新增成功',{icon:1,time:1000});
-				$.modalClose();
-				parent.loading();
-			} else {
-				$.modalAlert(data.msg, "error");
-			}
+    _ajax_save(ctx + "system/dept/save", $("#form-dept-add").serialize());
+}
 
-		}
-	});
+/*部门管理-新增-选择父部门树*/
+function selectDeptTree() {
+    var deptId = $("#treeId").val();
+    var url = ctx + "system/dept/selectDeptTree/" + deptId;
+    layer_show("选择部门", url, '380', '380');
 }

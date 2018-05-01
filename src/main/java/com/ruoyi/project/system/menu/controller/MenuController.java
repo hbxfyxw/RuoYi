@@ -91,7 +91,18 @@ public class MenuController extends BaseController
     @GetMapping("/add/{parentId}")
     public String add(@PathVariable("parentId") Long parentId, Model model)
     {
-        Menu menu = menuService.selectMenuById(parentId);
+
+        Menu menu = null;
+        if (0L != parentId)
+        {
+            menu = menuService.selectMenuById(parentId);
+        }
+        else
+        {
+            menu = new Menu();
+            menu.setMenuId(0L);
+            menu.setMenuName("主目录");
+        }
         model.addAttribute("menu", menu);
         return prefix + "/add";
     }

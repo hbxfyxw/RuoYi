@@ -44,9 +44,9 @@ function loading() {
 			formatter : function(row, index) {
 				if(row.parentId != 0) {
 					var actions = [];
-					actions.push('<a class="btn btn-primary btn-sm" href="#" title="编辑" mce_href="#" onclick="edit(\'' + row.deptId + '\')"><i class="fa fa-edit"></i></a>&nbsp;');
-					actions.push('<a class="btn btn-primary btn-sm" href="#" title="新增" mce_href="#" onclick="add(\'' + row.deptId + '\')"><i class="fa fa-plus"></i></a>&nbsp;');
-					actions.push('<a class="btn btn-warning btn-sm" href="#" title="删除" mce_href="#" onclick="remove(\'' + row.deptId + '\')"><i class="fa fa-remove"></i></a>');
+                    actions.push('<a class="btn btn-primary btn-sm ' + editFlag + '" href="#" title="编辑" mce_href="#" onclick="edit(\'' + row.deptId + '\')"><i class="fa fa-edit"></i></a> ');
+                    actions.push('<a class="btn btn-primary btn-sm ' + addFlag + '" href="#" title="新增" mce_href="#" onclick="add(\'' + row.deptId + '\')"><i class="fa fa-plus"></i></a> ');
+                    actions.push('<a class="btn btn-warning btn-sm ' + removeFlag + '" href="#" title="删除" mce_href="#" onclick="remove(\'' + row.deptId + '\')"><i class="fa fa-remove"></i></a>');
 					return actions.join('');
 				} else {
 					return "";
