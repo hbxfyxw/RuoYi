@@ -1,1 +1,1 @@
-devsecond branch: 集成 spring-data-jpa
+devspringdatajpa branch: 使用了 spring-data-jpa 简化开发
