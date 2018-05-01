@@ -1,43 +1,70 @@
 package com.ruoyi.project.monitor.job.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * 定时任务调度信息 sys_job
  * 
- * @author ruoyi
  */
-
-public class Job  extends PageDomain implements Serializable
+@Entity
+@Table(name="sys_job")
+public class Job extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
     /** 任务ID */
+    @Id
+    @GeneratedValue
+    @Column(name="job_id")
     private Long jobId;
+
     /** 任务名称 */
+    @Column(name="job_name")
     private String jobName;
+
     /** 任务组名 */
+    @Column(name="job_group")
     private String jobGroup;
+
     /** 任务方法 */
+    @Column(name="method_name")
     private String methodName;
+
     /** 方法参数 */
+    @Column(name="params")
     private String params;
+
     /** cron执行表达式 */
+    @Column(name="cron_expression")
     private String cronExpression;
+
     /** 状态（0正常 1暂停） */
+    @Column(name="status",insertable = false,updatable = false)
     private int status;
+
     /** 创建者 */
+    @Column(name="create_by")
     private String createBy;
+
     /** 创建时间 */
+    @Column(name="create_time")
     private Date createTime;
+
     /** 更新时间 */
+    @Column(name="update_time")
     private Date updateTime;
+
     /** 更新者 */
+    @Column(name="update_by")
     private String updateBy;
+
     /** 备注 */
+    @Column(name="remark")
     private String remark;
 
     public Long getJobId() {

@@ -1,40 +1,62 @@
 package com.ruoyi.project.monitor.job.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 定时任务调度日志信息 sys_job_log
  * 
- * @author ruoyi
  */
-public class JobLog  extends PageDomain
+@Entity
+@Table(name="sys_job_log")
+public class JobLog  extends BaseEntity
 {
     /** ID */
-    private Integer jobLogId;
+    @Id
+    @GeneratedValue
+    @Column(name = "job_log_id")
+    private Long jobLogId;
+
     /** 任务名称 */
+    @Column(name = "job_name")
     private String jobName;
+
     /** 任务组名 */
+    @Column(name = "job_group")
     private String jobGroup;
+
     /** 任务方法 */
+    @Column(name = "method_name")
     private String methodName;
+
     /** 方法参数 */
+    @Column(name = "params")
     private String params;
+
     /** 日志信息 */
+    @Column(name = "job_message")
     private String jobMessage;
+
     /** 是否异常 */
+    @Column(name = "is_exception")
     private int isException;
+
     /** 异常信息 */
+    @Column(name = "exception_info")
     private String exceptionInfo;
+
     /** 创建时间 */
+    @Column(name = "create_time")
     private Date createTime;
 
-    public Integer getJobLogId() {
+    public Long getJobLogId() {
         return jobLogId;
     }
 
-    public void setJobLogId(Integer jobLogId) {
+    public void setJobLogId(Long jobLogId) {
         this.jobLogId = jobLogId;
     }
 

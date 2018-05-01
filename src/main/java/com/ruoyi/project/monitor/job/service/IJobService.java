@@ -1,7 +1,10 @@
 package com.ruoyi.project.monitor.job.service;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.monitor.job.domain.Job;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 定时任务调度信息信息 服务层
@@ -13,11 +16,11 @@ public interface IJobService
 
     /**
      * 获取quartz调度器的计划任务
-     * 
+     *
      * @param job 调度信息
      * @return 调度任务集合
      */
-    public List<Job> selectJobList(Job job);
+    public TableDataInfo selectJobList(PageRequest pageRequest, Job job);
 
     /**
      * 通过调度任务ID查询调度信息
@@ -33,7 +36,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int pauseJob(Job job);
+    public boolean pauseJob(Job job);
 
     /**
      * 恢复任务
@@ -41,7 +44,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int resumeJob(Job job);
+    public boolean resumeJob(Job job);
 
     /**
      * 删除任务后，所对应的trigger也将被删除
@@ -49,7 +52,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int deleteJob(Job job);
+    public boolean deleteJob(Job job);
 
     /**
      * 批量删除调度信息
@@ -65,7 +68,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int changeStatus(Job job);
+    public boolean changeStatus(Job job);
 
     /**
      * 立即运行任务
@@ -73,7 +76,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int triggerJob(Job job);
+    public boolean triggerJob(Job job);
 
     /**
      * 新增任务表达式
@@ -81,7 +84,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int addJobCron(Job job);
+    public boolean addJobCron(Job job);
 
     /**
      * 更新任务的时间表达式
@@ -89,7 +92,7 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int updateJobCron(Job job);
+    public boolean updateJobCron(Job job);
 
     /**
      * 保存任务的时间表达式
@@ -97,5 +100,5 @@ public interface IJobService
      * @param job 调度信息
      * @return 结果
      */
-    public int saveJobCron(Job job);
+    public boolean saveJobCron(Job job);
 }

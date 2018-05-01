@@ -1,48 +1,78 @@
 package com.ruoyi.project.monitor.operlog.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 操作日志记录 oper_log
  * 
- * @author ruoyi
  */
-public class OperLog extends PageDomain
+@Entity
+@Table(name="sys_oper_log")
+public class OperLog extends BaseEntity
 {
     /** 日志主键 */
-    private Integer operId;
+    @Id
+    @GeneratedValue
+    @Column(name = "oper_id")
+    private Long operId;
+
     /** 模块标题 */
+    @Column(name = "title")
     private String title;
+
     /** 功能请求 */
+    @Column(name = "action")
     private String action;
+
     /** 请求方法 */
+    @Column(name = "method")
     private String method;
+
     /** 来源渠道 */
+    @Column(name = "channel")
     private String channel;
+
     /** 操作员名称 */
+    @Column(name = "login_name")
     private String loginName;
+
     /** 部门名称 */
+    @Column(name = "dept_name")
     private String deptName;
+
     /** 请求url */
+    @Column(name = "oper_url")
     private String operUrl;
+
     /** 操作地址 */
+    @Column(name = "oper_ip")
     private String operIp;
+
     /** 请求参数 */
+    @Column(name = "oper_param")
     private String operParam;
+
     /** 状态0正常 1异常 */
+    @Column(name = "status")
     private int status;
+
     /** 错误消息 */
+    @Column(name = "error_msg")
     private String errorMsg;
+
     /** 操作时间 */
+    @Column(name = "oper_time")
     private Date operTime;
 
-    public Integer getOperId() {
+    public Long getOperId() {
         return operId;
     }
 
-    public void setOperId(Integer operId) {
+    public void setOperId(Long operId) {
         this.operId = operId;
     }
 

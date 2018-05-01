@@ -44,9 +44,7 @@ public class OperlogController extends BaseController
     @ResponseBody
     public TableDataInfo list(OperLog operLog)
     {
-        setPageInfo(operLog);
-        List<OperLog> list = operLogService.selectOperLogList(operLog);
-        return getDataTable(list);
+        return operLogService.selectOperLogList(getPageRequest(operLog),operLog);
     }
 
     @RequiresPermissions("monitor:operlog:batchRemove")
@@ -55,8 +53,7 @@ public class OperlogController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = operLogService.batchDeleteOperLog(ids);
-        if (rows > 0)
+        if (operLogService.batchDeleteOperLog(ids))
         {
             return JSON.ok();
         }

@@ -1,10 +1,22 @@
 package com.ruoyi.project.monitor.job.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.monitor.job.domain.Job;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.monitor.job.dao.IJobLogDao;
 import com.ruoyi.project.monitor.job.domain.JobLog;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 定时任务调度日志信息 服务层
@@ -24,20 +36,40 @@ public class JobLogServiceImpl implements IJobLogService
      * @param jobLog 调度日志信息
      * @return 调度任务日志集合
      */
-    public List<JobLog> selectJobLogList(JobLog jobLog)
+    public TableDataInfo selectJobLogList(PageRequest pageRequest,JobLog jobLog)
     {
-        return jobLogDao.selectJobLogList(jobLog);
+        String keyword = jobLog.getSearchValue();
+        Specification<JobLog> spec = new Specification<JobLog>() {
+            @Override
+            public Predicate toPredicate(Root<JobLog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("jobName"), "%/" + keyword + "%", '/');
+                    Predicate predicateP = builder.like(root.<String> get("methodName"), "%/" + keyword + "%", '/');
+                    predicates.add(builder.or(predicateT,predicateP));
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<JobLog> pageJobLog = jobLogDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageJobLog.getContent());
+        rspData.setTotal(pageJobLog.getTotalElements());
+        return rspData;
     }
 
     /**
      * 通过调度任务日志ID查询调度信息
      * 
-     * @param jobId 调度任务日志ID
      * @return 调度任务日志对象信息
      */
     public JobLog selectJobLogById(Long jobLogId)
     {
-        return jobLogDao.selectJobLogById(jobLogId);
+        return jobLogDao.findJobLogByJobLogId(jobLogId);
     }
 
     /**
@@ -47,7 +79,7 @@ public class JobLogServiceImpl implements IJobLogService
      */
     public void addJobLog(JobLog jobLog)
     {
-        jobLogDao.insertJobLog(jobLog);
+        jobLogDao.save(jobLog);
     }
 
     /**
@@ -56,9 +88,16 @@ public class JobLogServiceImpl implements IJobLogService
      * @param ids 需要删除的数据ID
      * @return 结果
      */
-    public int batchDeleteJoblog(Long[] ids)
+    public boolean batchDeleteJoblog(Long[] ids)
     {
-        return jobLogDao.batchDeleteJobLog(ids);
+        List<JobLog> lj = new ArrayList<>();
+        for (Long id : ids) {
+            JobLog jobLog = new JobLog();
+            jobLog.setJobLogId(id);
+            lj.add(jobLog);
+        }
+        jobLogDao.deleteInBatch(lj);
+        return true;
     }
 
     /**
@@ -66,9 +105,10 @@ public class JobLogServiceImpl implements IJobLogService
      * 
      * @param jobId 调度日志ID
      */
-    public int deleteJobLogById(Long jobId)
+    public boolean deleteJobLogById(Long jobId)
     {
-        return jobLogDao.deleteJobLogById(jobId);
+         jobLogDao.delete(jobId);
+         return true;
     }
 
 }

@@ -44,9 +44,7 @@ public class JobController extends BaseController
     @ResponseBody
     public TableDataInfo list(Job job)
     {
-        setPageInfo(job);
-        List<Job> list = jobService.selectJobList(job);
-        return getDataTable(list);
+        return jobService.selectJobList(getPageRequest(job),job);
     }
 
     /**
@@ -63,7 +61,7 @@ public class JobController extends BaseController
         {
             return JSON.error("调度任务不存在");
         }
-        if (jobService.deleteJob(job) > 0)
+        if (jobService.deleteJob(job))
         {
             return JSON.ok();
         }
@@ -97,7 +95,7 @@ public class JobController extends BaseController
     @ResponseBody
     public JSON changeStatus(Job job)
     {
-        if (jobService.changeStatus(job) > 0)
+        if (jobService.changeStatus(job))
         {
             return JSON.ok();
         }
@@ -137,7 +135,7 @@ public class JobController extends BaseController
     @ResponseBody
     public JSON save(Job job)
     {
-        if (jobService.saveJobCron(job) > 0)
+        if (jobService.saveJobCron(job))
         {
             return JSON.ok();
         }

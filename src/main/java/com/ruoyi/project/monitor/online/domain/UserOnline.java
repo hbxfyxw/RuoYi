@@ -2,47 +2,64 @@ package com.ruoyi.project.monitor.online.domain;
 
 import java.util.Date;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.project.monitor.online.domain.OnlineSession.OnlineStatus;
+
+import javax.persistence.*;
 
 /**
  * 当前在线会话 sys_user_online
  * 
  * @author ruoyi
  */
-public class UserOnline extends PageDomain
+@Entity
+@Table(name = "sys_user_online")
+public class UserOnline extends BaseEntity
 {
     /** 用户会话id */
+    @Id
+    @Column(name = "sessionid")
     private String sessionId;
 
     /** 部门名称 */
+    @Column(name = "dept_name")
     private String deptName;
 
     /** 登录名称 */
+    @Column(name = "login_name")
     private String loginName;
 
     /** 登录IP地址 */
+    @Column(name = "ipaddr")
     private String ipaddr;
 
     /** 浏览器类型 */
+    @Column(name = "browser")
     private String browser;
 
     /** 操作系统 */
+    @Column(name = "os")
     private String os;
 
     /** session创建时间 */
+    @Column(name = "start_timestsamp")
     private Date startTimestamp;
 
     /** session最后访问时间 */
+    @Column(name = "last_access_time")
     private Date lastAccessTime;
 
     /** 超时时间，单位为分钟 */
+    @Column(name = "expire_time",insertable = false,updatable = false)
     private Long expireTime;
 
     /** 在线状态 */
+    @Transient
     private OnlineStatus status = OnlineStatus.on_line;
 
     /** 备份的当前用户会话 */
+    @Transient
     private OnlineSession session;
 
     /**

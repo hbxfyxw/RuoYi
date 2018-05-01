@@ -1,10 +1,23 @@
 package com.ruoyi.project.monitor.operlog.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.monitor.operlog.dao.IOperLogDao;
 import com.ruoyi.project.monitor.operlog.domain.OperLog;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 操作日志 服务层处理
@@ -25,7 +38,7 @@ public class OperLogServiceImpl implements IOperLogService
     @Override
     public void insertOperlog(OperLog operLog)
     {
-        operLogDao.insertOperlog(operLog);
+        operLogDao.save(operLog);
     }
 
     /**
@@ -35,9 +48,29 @@ public class OperLogServiceImpl implements IOperLogService
      * @return 操作日志集合
      */
     @Override
-    public List<OperLog> selectOperLogList(OperLog operLog)
+    public TableDataInfo selectOperLogList(PageRequest pageRequest,OperLog operLog)
     {
-        return operLogDao.selectOperLogList(operLog);
+        String keyword = operLog.getSearchValue();
+        Specification<OperLog> spec = new Specification<OperLog>() {
+            @Override
+            public Predicate toPredicate(Root<OperLog> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("loginName"), "%/" + keyword + "%", '/');
+                    predicates.add(predicateT);
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<OperLog> pageOperLog = operLogDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageOperLog.getContent());
+        rspData.setTotal(pageOperLog.getTotalElements());
+        return rspData;
     }
 
     /**
@@ -47,9 +80,16 @@ public class OperLogServiceImpl implements IOperLogService
      * @return
      */
     @Override
-    public int batchDeleteOperLog(Long[] ids)
+    public boolean batchDeleteOperLog(Long[] ids)
     {
-        return operLogDao.batchDeleteOperLog(ids);
+        List<OperLog> lo = new ArrayList<>();
+        for (Long id : ids) {
+            OperLog operLog = new OperLog();
+            operLog.setOperId(id);
+            lo.add(operLog);
+        }
+        operLogDao.deleteInBatch(lo);
+        return true;
     }
 
     /**
@@ -61,6 +101,6 @@ public class OperLogServiceImpl implements IOperLogService
     @Override
     public OperLog selectOperLogById(Long operId)
     {
-        return operLogDao.selectOperLogById(operId);
+        return operLogDao.findOperLogByOperId(operId);
     }
 }

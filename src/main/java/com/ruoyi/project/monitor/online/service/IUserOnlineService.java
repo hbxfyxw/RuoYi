@@ -2,7 +2,10 @@ package com.ruoyi.project.monitor.online.service;
 
 import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.monitor.online.domain.UserOnline;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 在线用户 服务层
@@ -48,7 +51,7 @@ public interface IUserOnlineService
      * @param userOnline 分页参数
      * @return 会话集合
      */
-    public List<UserOnline> selectUserOnlineList(UserOnline userOnline);
+    public TableDataInfo selectUserOnlineList(PageRequest pageRequest, UserOnline userOnline);
 
     /**
      * 强退用户

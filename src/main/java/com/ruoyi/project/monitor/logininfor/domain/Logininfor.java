@@ -1,38 +1,58 @@
 package com.ruoyi.project.monitor.logininfor.domain;
 
+import com.ruoyi.framework.web.domain.BaseEntity;
 import com.ruoyi.framework.web.page.PageDomain;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
  * 系统访问日志情况信息 sys_logininfor
  * 
- * @author ruoyi
  */
-public class Logininfor extends PageDomain
+@Entity
+@Table(name="sys_logininfor")
+public class Logininfor extends BaseEntity
 {
     /** ID */
-    private Integer infoId;
+    @Id
+    @GeneratedValue
+    @Column(name = "info_id")
+    private Long infoId;
+
     /** 用户账号 */
+    @Column(name = "login_name")
     private String loginName;
+
     /** 登录状态 0成功 1失败 */
+    @Column(name = "status",insertable = false,updatable = false)
     private String status;
+
     /** 登录IP地址 */
+    @Column(name = "ipaddr")
     private String ipaddr;
+
     /** 浏览器类型 */
+    @Column(name = "browser")
     private String browser;
+
     /** 操作系统 */
+    @Column(name = "os")
     private String os;
+
     /** 提示消息 */
+    @Column(name = "msg")
     private String msg;
+
     /** 访问时间 */
+    @Column(name = "login_time")
     private Date loginTime;
 
-    public Integer getInfoId() {
+    public Long getInfoId() {
         return infoId;
     }
 
-    public void setInfoId(Integer infoId) {
+    public void setInfoId(Long infoId) {
         this.infoId = infoId;
     }
 

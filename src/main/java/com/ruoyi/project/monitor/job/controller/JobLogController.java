@@ -43,9 +43,7 @@ public class JobLogController extends BaseController
     @ResponseBody
     public TableDataInfo list(JobLog jobLog)
     {
-        setPageInfo(jobLog);
-        List<JobLog> list = jobLogService.selectJobLogList(jobLog);
-        return getDataTable(list);
+        return jobLogService.selectJobLogList(getPageRequest(jobLog),jobLog);
     }
 
     /**
@@ -62,7 +60,7 @@ public class JobLogController extends BaseController
         {
             return JSON.error("调度任务不存在");
         }
-        if (jobLogService.deleteJobLogById(jobLogId) > 0)
+        if (jobLogService.deleteJobLogById(jobLogId))
         {
             return JSON.ok();
         }

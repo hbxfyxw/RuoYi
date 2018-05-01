@@ -1,14 +1,27 @@
 package com.ruoyi.project.monitor.online.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.monitor.operlog.domain.OperLog;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.framework.shiro.session.OnlineSessionDAO;
 import com.ruoyi.project.monitor.online.dao.IUserOnlineDao;
 import com.ruoyi.project.monitor.online.domain.UserOnline;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 在线用户 服务层处理
@@ -33,7 +46,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
     @Override
     public UserOnline selectOnlineById(String sessionId)
     {
-        return userOnlineDao.selectOnlineById(sessionId);
+        return userOnlineDao.findUserOnlineBySessionId(sessionId);
     }
 
     /**
@@ -48,7 +61,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
         UserOnline userOnline = selectOnlineById(sessionId);
         if (userOnline != null)
         {
-            userOnlineDao.deleteOnlineById(sessionId);
+            userOnlineDao.delete(sessionId);
         }
     }
 
@@ -66,7 +79,7 @@ public class UserOnlineServiceImpl implements IUserOnlineService
             UserOnline userOnline = selectOnlineById(sessionId);
             if (userOnline != null)
             {
-                userOnlineDao.deleteOnlineById(sessionId);
+                userOnlineDao.delete(sessionId);
             }
         }
     }
@@ -79,18 +92,37 @@ public class UserOnlineServiceImpl implements IUserOnlineService
     @Override
     public void saveOnline(UserOnline online)
     {
-        userOnlineDao.saveOnline(online);
+        userOnlineDao.save(online);
     }
 
     /**
      * 查询会话集合
      * 
-     * @param pageUtilEntity 分页参数
      */
     @Override
-    public List<UserOnline> selectUserOnlineList(UserOnline userOnline)
+    public TableDataInfo selectUserOnlineList(PageRequest pageRequest,UserOnline userOnline)
     {
-        return userOnlineDao.selectUserOnlineList(userOnline);
+        String keyword = userOnline.getSearchValue();
+        Specification<UserOnline> spec = new Specification<UserOnline>() {
+            @Override
+            public Predicate toPredicate(Root<UserOnline> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("loginName"), "%/" + keyword + "%", '/');
+                    predicates.add(predicateT);
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<UserOnline> pageUserOnline = userOnlineDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageUserOnline.getContent());
+        rspData.setTotal(pageUserOnline.getTotalElements());
+        return rspData;
     }
 
     /**
@@ -107,13 +139,12 @@ public class UserOnlineServiceImpl implements IUserOnlineService
             return;
         }
         session.setTimeout(1000);
-        userOnlineDao.deleteOnlineById(sessionId);
+        userOnlineDao.delete(sessionId);
     }
 
     /**
      * 查询会话集合
      * 
-     * @param online 会话信息
      */
     @Override
     public List<UserOnline> selectOnlineByExpired(Date expiredDate)

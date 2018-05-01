@@ -48,9 +48,7 @@ public class UserOnlineController extends BaseController
     @ResponseBody
     public TableDataInfo list(UserOnline userOnline)
     {
-        setPageInfo(userOnline);
-        List<UserOnline> list = userOnlineService.selectUserOnlineList(userOnline);
-        return getDataTable(list);
+        return userOnlineService.selectUserOnlineList(getPageRequest(userOnline),userOnline);
     }
 
     @RequiresPermissions("monitor:online:batchForceLogout")

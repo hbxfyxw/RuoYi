@@ -9,7 +9,6 @@ import javax.persistence.Table;
 /**
  * 操作日志记录 oper_log
  * 
- * @author ruoyi
  */
 @Entity
 @Table(name="t_fpzb")

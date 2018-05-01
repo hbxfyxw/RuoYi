@@ -1,10 +1,23 @@
 package com.ruoyi.project.monitor.logininfor.service;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.monitor.operlog.domain.OperLog;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.monitor.logininfor.dao.ILogininforDao;
 import com.ruoyi.project.monitor.logininfor.domain.Logininfor;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 /**
  * 系统访问日志情况信息 服务层处理
@@ -26,7 +39,7 @@ public class LogininforServiceImpl implements ILogininforService
     @Override
     public void insertLogininfor(Logininfor logininfor)
     {
-        logininforDao.insertLogininfor(logininfor);
+        logininforDao.save(logininfor);
     }
 
     /**
@@ -36,9 +49,30 @@ public class LogininforServiceImpl implements ILogininforService
      * @return 登录记录集合
      */
     @Override
-    public List<Logininfor> selectLogininforList(Logininfor logininfor)
+    public TableDataInfo selectLogininforList(PageRequest pageRequest,Logininfor logininfor)
     {
-        return logininforDao.selectLogininforList(logininfor);
+        String keyword = logininfor.getSearchValue();
+        Specification<Logininfor> spec = new Specification<Logininfor>() {
+            @Override
+            public Predicate toPredicate(Root<Logininfor> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("login_name"), "%/" + keyword + "%", '/');
+                    predicates.add(predicateT);
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<Logininfor> pageLoginInfo = logininforDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageLoginInfo.getContent());
+        rspData.setTotal(pageLoginInfo.getTotalElements());
+        return rspData;
+
     }
 
     /**
@@ -48,8 +82,15 @@ public class LogininforServiceImpl implements ILogininforService
      * @return
      */
     @Override
-    public int batchDeleteLogininfor(Long[] ids)
+    public boolean batchDeleteLogininfor(Long[] ids)
     {
-        return logininforDao.batchDeleteLogininfor(ids);
+        List<Logininfor> ll = new ArrayList<>();
+        for (Long id : ids) {
+            Logininfor logininfor = new Logininfor();
+            logininfor.setInfoId(id);
+            ll.add(logininfor);
+        }
+        logininforDao.deleteInBatch(ll);
+        return true;
     }
 }

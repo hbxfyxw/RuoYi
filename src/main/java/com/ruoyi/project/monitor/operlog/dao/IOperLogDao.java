@@ -1,45 +1,28 @@
 package com.ruoyi.project.monitor.operlog.dao;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.dao.BaseDao;
+import com.ruoyi.project.system.dict.domain.DictType;
 import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.monitor.operlog.domain.OperLog;
+import org.springframework.stereotype.Repository;
 
 /**
  * 操作日志 数据层
  * 
  * @author ruoyi
  */
-@Mapper
-public interface IOperLogDao
+@Repository
+public interface IOperLogDao extends BaseDao<OperLog, Long>
 {
-    /**
-     * 新增操作日志
-     * 
-     * @param operLog 操作日志对象
-     */
-    public void insertOperlog(OperLog operLog);
 
     /**
-     * 查询系统操作日志集合
-     * 
-     * @param operLog 操作日志对象
-     * @return 操作日志集合
-     */
-    public List<OperLog> selectOperLogList(OperLog operLog);
-    
-    /**
-     * 批量删除系统操作日志
-     * 
-     * @param ids 需要删除的数据
-     * @return 结果
-     */
-    public int batchDeleteOperLog(Long[] ids);
-    
-    /**
      * 查询操作日志详细
-     * 
+     *
      * @param operId 操作ID
      * @return 操作日志对象
      */
-    public OperLog selectOperLogById(Long operId);
+    public OperLog findOperLogByOperId(Long operId);
+
 }

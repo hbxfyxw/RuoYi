@@ -42,9 +42,7 @@ public class LogininforController extends BaseController
     @ResponseBody
     public TableDataInfo list(Logininfor logininfor)
     {
-        setPageInfo(logininfor);
-        List<Logininfor> list = logininforService.selectLogininforList(logininfor);
-        return getDataTable(list);
+        return logininforService.selectLogininforList(getPageRequest(logininfor),logininfor);
     }
 
     @RequiresPermissions("monitor:logininfor:batchRemove")
@@ -53,8 +51,7 @@ public class LogininforController extends BaseController
     @ResponseBody
     public JSON batchRemove(@RequestParam("ids[]") Long[] ids)
     {
-        int rows = logininforService.batchDeleteLogininfor(ids);
-        if (rows > 0)
+        if (logininforService.batchDeleteLogininfor(ids))
         {
             return JSON.ok();
         }

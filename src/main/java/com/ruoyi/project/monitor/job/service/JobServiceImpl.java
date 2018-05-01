@@ -1,11 +1,22 @@
 package com.ruoyi.project.monitor.job.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.monitor.operlog.domain.OperLog;
 import org.quartz.CronTrigger;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.constant.ScheduleConstants;
 import com.ruoyi.common.utils.StringUtils;
@@ -34,7 +45,7 @@ public class JobServiceImpl implements IJobService
     @PostConstruct
     public void init()
     {
-        List<Job> jobList = jobDao.selectJobAll();
+        List<Job> jobList = jobDao.findAll();
         for (Job job : jobList)
         {
             CronTrigger cronTrigger = ScheduleUtils.getCronTrigger(scheduler, job.getJobId());
@@ -57,9 +68,30 @@ public class JobServiceImpl implements IJobService
      * @return
      */
     @Override
-    public List<Job> selectJobList(Job job)
+    public TableDataInfo selectJobList(PageRequest pageRequest,Job job)
     {
-        return jobDao.selectJobList(job);
+        String keyword = job.getSearchValue();
+        Specification<Job> spec = new Specification<Job>() {
+            @Override
+            public Predicate toPredicate(Root<Job> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder builder) {
+                List<Predicate> predicates =new ArrayList();
+                if (org.apache.commons.lang3.StringUtils.isNotEmpty(keyword)) {
+                    Predicate predicateT = builder.like(root.<String> get("jobName"), "%/" + keyword + "%", '/');
+                    Predicate predicateP = builder.like(root.<String> get("methodName"), "%/" + keyword + "%", '/');
+                    predicates.add(builder.or(predicateT,predicateP));
+                }
+                // 将所有条件用 and 联合起来
+                if (predicates.size() > 0) {
+                    return builder.and(predicates.toArray(new Predicate[predicates.size()]));
+                }
+                return builder.conjunction();
+            }
+        };
+        Page<Job> pageJob = jobDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageJob.getContent());
+        rspData.setTotal(pageJob.getTotalElements());
+        return rspData;
     }
 
     /**
@@ -71,7 +103,7 @@ public class JobServiceImpl implements IJobService
     @Override
     public Job selectJobById(Long jobId)
     {
-        return jobDao.selectJobById(jobId);
+        return jobDao.findJobByJobId(jobId);
     }
 
     /**
@@ -80,16 +112,13 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int pauseJob(Job job)
+    public boolean pauseJob(Job job)
     {
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
         job.setUpdateBy(ShiroUtils.getLoginName());
-        int rows = jobDao.updateJob(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.pauseJob(scheduler, job.getJobId());
-        }
-        return rows;
+        jobDao.save(job);
+        ScheduleUtils.pauseJob(scheduler, job.getJobId());
+        return true;
     }
 
     /**
@@ -98,16 +127,13 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int resumeJob(Job job)
+    public boolean resumeJob(Job job)
     {
         job.setStatus(ScheduleConstants.Status.NORMAL.getValue());
         job.setUpdateBy(ShiroUtils.getLoginName());
-        int rows = jobDao.updateJob(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.resumeJob(scheduler, job.getJobId());
-        }
-        return rows;
+        jobDao.save(job);
+        ScheduleUtils.resumeJob(scheduler, job.getJobId());
+        return true;
     }
 
     /**
@@ -116,14 +142,11 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int deleteJob(Job job)
+    public boolean deleteJob(Job job)
     {
-        int rows = jobDao.deleteJobById(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.deleteScheduleJob(scheduler, job.getJobId());
-        }
-        return rows;
+        jobDao.delete(job);
+        ScheduleUtils.deleteScheduleJob(scheduler, job.getJobId());
+        return true;
     }
 
     /**
@@ -137,7 +160,7 @@ public class JobServiceImpl implements IJobService
     {
         for (Long jobId : ids)
         {
-            Job job = jobDao.selectJobById(jobId);
+            Job job = jobDao.findJobByJobId(jobId);
             deleteJob(job);
         }
     }
@@ -148,19 +171,19 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int changeStatus(Job job)
+    public boolean changeStatus(Job job)
     {
         int rows = 0;
         int status = job.getStatus();
         if (status == 0)
         {
-            rows = resumeJob(job);
+            resumeJob(job);
         }
         else if (status == 1)
         {
-            rows = pauseJob(job);
+            pauseJob(job);
         }
-        return rows;
+        return true;
     }
 
     /**
@@ -169,14 +192,11 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int triggerJob(Job job)
+    public boolean triggerJob(Job job)
     {
-        int rows = jobDao.updateJob(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.run(scheduler, job);
-        }
-        return rows;
+        jobDao.save(job);
+        ScheduleUtils.run(scheduler, job);
+        return true;
     }
 
     /**
@@ -185,17 +205,14 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息 调度信息
      */
     @Override
-    public int addJobCron(Job job)
+    public boolean addJobCron(Job job)
     {
         job.setCreateBy(ShiroUtils.getLoginName());
         job.setCreateTime(new Date());
         job.setStatus(ScheduleConstants.Status.PAUSE.getValue());
-        int rows = jobDao.insertJob(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.createScheduleJob(scheduler, job);
-        }
-        return rows;
+        jobDao.save(job);
+        ScheduleUtils.createScheduleJob(scheduler, job);
+        return true;
     }
 
     /**
@@ -204,14 +221,11 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int updateJobCron(Job job)
+    public boolean updateJobCron(Job job)
     {
-        int rows = jobDao.updateJob(job);
-        if (rows > 0)
-        {
-            ScheduleUtils.updateScheduleJob(scheduler, job);
-        }
-        return rows;
+        jobDao.save(job);
+        ScheduleUtils.updateScheduleJob(scheduler, job);
+        return true;
     }
 
     /**
@@ -220,19 +234,19 @@ public class JobServiceImpl implements IJobService
      * @param job 调度信息
      */
     @Override
-    public int saveJobCron(Job job)
+    public boolean saveJobCron(Job job)
     {
         Long jobId = job.getJobId();
         int rows = 0;
         if (StringUtils.isNotNull(jobId))
         {
-            rows = updateJobCron(job);
+            updateJobCron(job);
         }
         else
         {
-            rows = addJobCron(job);
+            addJobCron(job);
         }
-        return rows;
+        return true;
     }
 
 }
