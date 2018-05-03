@@ -1,2 +1,2 @@
-devjpa branch: 使用纯JPA代替mybatis
-注意使用了：Lombok
+﻿devjpa branch: 使用JPA DAO 代替mybatis
+Metamodel 使用 Hibernate Metamodel Generator 生成
