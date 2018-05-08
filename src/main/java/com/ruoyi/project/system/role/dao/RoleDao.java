@@ -1,13 +1,9 @@
 package com.ruoyi.project.system.role.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.ruoyi.framework.web.dao.BaseDao;
-import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.role.domain.Role;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

@@ -2,8 +2,12 @@ package com.ruoyi.project.system.role.service;
 
 import java.util.*;
 
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.system.post.domain.Post;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.security.ShiroUtils;
@@ -43,7 +47,7 @@ public class RoleServiceImpl implements IRoleService
      * @return 角色数据集合信息
      */
     @Override
-    public List<Role> selectRoleList(Role role)
+    public TableDataInfo selectRoleList(PageRequest pageRequest,Role role)
     {
         String keyword = role.getSearchValue();
         Specification<Role> spec = new Specification<Role>() {
@@ -61,7 +65,11 @@ public class RoleServiceImpl implements IRoleService
                 return builder.conjunction();
             }
         };
-        return roleDao.findAll(spec);
+        Page<Role> pageRole = roleDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pageRole.getContent());
+        rspData.setTotal(pageRole.getTotalElements());
+        return rspData;
     }
 
     /**

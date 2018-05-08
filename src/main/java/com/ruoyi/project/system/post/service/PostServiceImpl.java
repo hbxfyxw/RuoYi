@@ -3,8 +3,12 @@ package com.ruoyi.project.system.post.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.ruoyi.framework.web.page.TableDataInfo;
+import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import com.ruoyi.project.system.role.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.utils.StringUtils;
@@ -35,7 +39,7 @@ public class PostServiceImpl implements IPostService
      * @return 岗位信息集合
      */
     @Override
-    public List<Post> selectPostList(Post post)
+    public TableDataInfo selectPostList(PageRequest pageRequest, Post post)
     {
         String keyword = post.getSearchValue();
         Specification<Post> spec = new Specification<Post>() {
@@ -53,7 +57,12 @@ public class PostServiceImpl implements IPostService
                 return builder.conjunction();
             }
         };
-        return postDao.findAll(spec);
+
+        Page<Post> pagePost = postDao.findAll(spec,pageRequest);
+        TableDataInfo rspData = new TableDataInfo();
+        rspData.setRows(pagePost.getContent());
+        rspData.setTotal(pagePost.getTotalElements());
+        return rspData;
     }
 
     /**

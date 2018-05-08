@@ -44,9 +44,7 @@ public class PostController extends BaseController
     @ResponseBody
     public TableDataInfo list(Post post)
     {
-        setPageInfo(post);
-        List<Post> list = postService.selectPostList(post);
-        return getDataTable(list);
+        return postService.selectPostList(getPageRequest(post),post);
     }
 
     /**

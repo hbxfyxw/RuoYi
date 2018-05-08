@@ -147,6 +147,7 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
+    @Transactional
     public boolean deleteUserById(Long userId)
     {
         // 删除用户与角色关联

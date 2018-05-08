@@ -1,8 +1,6 @@
 package com.ruoyi.framework.web.controller;
 
 import java.util.List;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.utils.security.ShiroUtils;
 import com.ruoyi.framework.web.page.PageDomain;
 import com.ruoyi.framework.web.page.PageUtilEntity;
@@ -14,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * web层通用数据处理
@@ -33,14 +29,6 @@ public class BaseController
         return pageUtilEntity;
     }
 
-    /**
-     * 设置请求分页数据
-     */
-    protected void setPageInfo(Object obj)
-    {
-        PageDomain page = (PageDomain) obj;
-        PageHelper.startPage(page.getPageNum(), page.getPageSize(), page.getOrderBy());
-    }
 
 
 
@@ -74,17 +62,6 @@ public class BaseController
     }
 
 
-    /**
-     * 响应请求分页数据
-     */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected TableDataInfo getDataTable(List<?> list)
-    {
-        TableDataInfo rspData = new TableDataInfo();
-        rspData.setRows(list);
-        rspData.setTotal(new PageInfo(list).getTotal());
-        return rspData;
-    }
 
     public User getUser()
     {

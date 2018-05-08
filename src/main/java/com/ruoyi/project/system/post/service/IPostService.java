@@ -1,7 +1,10 @@
 package com.ruoyi.project.system.post.service;
 
 import java.util.List;
+
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.post.domain.Post;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 岗位信息 服务层
@@ -16,7 +19,7 @@ public interface IPostService
      * @param post 岗位信息
      * @return 岗位信息集合
      */
-    public List<Post> selectPostList(Post post);
+    public TableDataInfo selectPostList(PageRequest pageRequest, Post post);
 
     /**
      * 查询所有岗位

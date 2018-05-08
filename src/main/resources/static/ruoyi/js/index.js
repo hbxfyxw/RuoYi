@@ -41,12 +41,12 @@ $(function() {
 });
 
 $(window).bind("load resize",
-function() {
-    if ($(this).width() < 769) {
-        $('body').addClass('mini-navbar');
-        $('.navbar-static-side').fadeIn();
-    }
-});
+    function() {
+        if ($(this).width() < 769) {
+            $('body').addClass('mini-navbar');
+            $('.navbar-static-side').fadeIn();
+        }
+    });
 
 function NavToggle() {
     $('.navbar-minimalize').trigger('click');
@@ -56,15 +56,15 @@ function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar')) {
         $('#side-menu').hide();
         setTimeout(function() {
-            $('#side-menu').fadeIn(500);
-        },
-        100);
+                $('#side-menu').fadeIn(500);
+            },
+            100);
     } else if ($('body').hasClass('fixed-sidebar')) {
         $('#side-menu').hide();
         setTimeout(function() {
-            $('#side-menu').fadeIn(500);
-        },
-        300);
+                $('#side-menu').fadeIn(500);
+            },
+            300);
     } else {
         $('#side-menu').removeAttr('style');
     }
@@ -86,7 +86,7 @@ $(function() {
     //滚动到指定选项卡
     function scrollToTab(element) {
         var marginLeftVal = calSumWidth($(element).prevAll()),
-        marginRightVal = calSumWidth($(element).nextAll());
+            marginRightVal = calSumWidth($(element).nextAll());
         // 可视区域非tab宽度
         var tabOuterWidth = calSumWidth($(".content-tabs").children().not(".menuTabs"));
         //可视区域tab宽度
@@ -108,9 +108,9 @@ $(function() {
             scrollVal = marginLeftVal - $(element).prev().outerWidth(true);
         }
         $('.page-tabs-content').animate({
-            marginLeft: 0 - scrollVal + 'px'
-        },
-        "fast");
+                marginLeft: 0 - scrollVal + 'px'
+            },
+            "fast");
     }
 
     //查看左侧隐藏的选项卡
@@ -141,9 +141,9 @@ $(function() {
             }
         }
         $('.page-tabs-content').animate({
-            marginLeft: 0 - scrollVal + 'px'
-        },
-        "fast");
+                marginLeft: 0 - scrollVal + 'px'
+            },
+            "fast");
     }
 
     //查看右侧隐藏的选项卡
@@ -172,9 +172,9 @@ $(function() {
             scrollVal = calSumWidth($(tabElement).prevAll());
             if (scrollVal > 0) {
                 $('.page-tabs-content').animate({
-                    marginLeft: 0 - scrollVal + 'px'
-                },
-                "fast");
+                        marginLeft: 0 - scrollVal + 'px'
+                    },
+                    "fast");
             }
         }
     }
@@ -189,9 +189,9 @@ $(function() {
     function menuItem() {
         // 获取标识数据
         var dataUrl = $(this).attr('href'),
-        dataIndex = $(this).data('index'),
-        menuName = $.trim($(this).text()),
-        flag = true;
+            dataIndex = $(this).data('index'),
+            menuName = $.trim($(this).text()),
+            flag = true;
         if (dataUrl == undefined || $.trim(dataUrl).length == 0) return false;
 
         // 选项卡菜单已存在
@@ -254,9 +254,9 @@ $(function() {
                 var marginLeftVal = parseInt($('.page-tabs-content').css('margin-left'));
                 if (marginLeftVal < 0) {
                     $('.page-tabs-content').animate({
-                        marginLeft: (marginLeftVal + currentWidth) + 'px'
-                    },
-                    "fast");
+                            marginLeft: (marginLeftVal + currentWidth) + 'px'
+                        },
+                        "fast");
                 }
 
                 //  移除当前选项卡
@@ -349,12 +349,12 @@ $(function() {
 
     //刷新iframe
     function refreshTab() {
-    	var currentId = $('.page-tabs-content').find('.active').attr('data-id');
-    	var target = $('.RuoYi_iframe[data-id="' + currentId + '"]');
+        var currentId = $('.page-tabs-content').find('.active').attr('data-id');
+        var target = $('.RuoYi_iframe[data-id="' + currentId + '"]');
         var url = target.attr('src');
         target.attr('src', url).ready();
     }
-    
+
     // 刷新按钮
     $('.tabReload').on('click', refreshTab);
 
@@ -368,15 +368,15 @@ $(function() {
 
     // 关闭全部
     $('.tabCloseAll').on('click',
-    function() {
-        $('.page-tabs-content').children("[data-id]").not(":first").each(function() {
-            $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').remove();
-            $(this).remove();
+        function() {
+            $('.page-tabs-content').children("[data-id]").not(":first").each(function() {
+                $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').remove();
+                $(this).remove();
+            });
+            $('.page-tabs-content').children("[data-id]:first").each(function() {
+                $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').show();
+                $(this).addClass("active");
+            });
+            $('.page-tabs-content').css("margin-left", "0");
         });
-        $('.page-tabs-content').children("[data-id]:first").each(function() {
-            $('.RuoYi_iframe[data-id="' + $(this).data('id') + '"]').show();
-            $(this).addClass("active");
-        });
-        $('.page-tabs-content').css("margin-left", "0");
-    });
 });

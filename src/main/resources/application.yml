@@ -1,7 +1,7 @@
 #开发环境配置
 server:
   #端口
-  port: 80
+  port: 9011
   tomcat:
     uri-encoding: utf-8
 
@@ -19,7 +19,7 @@ user:
 #Srping配置
 spring:
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate.ddl-auto: update
     database: mysql
     properties:
@@ -45,20 +45,6 @@ spring:
     restart:
       enabled: true
 
-# MyBatis
-mybatis:
-    # 搜索指定包别名 DAO
-    typeAliasesPackage: com.ruoyi.project
-    # 配置mapper的扫描，找到所有的mapper.xml映射文件
-    mapperLocations: classpath:mybatis/**/*Mapper.xml
-    # 加载全局的配置文件
-    configLocation: classpath:mybatis/mybatis-config.xml
-# PageHelper
-pagehelper: 
-  helperDialect: mysql
-  reasonable: true
-  supportMethodsArguments: true
-  params: count=countSql 
 # Shiro
 shiro:
   user:

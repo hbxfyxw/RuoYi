@@ -3,8 +3,6 @@ package com.ruoyi.project.monitor.job.dao;
 import java.util.List;
 
 import com.ruoyi.framework.web.dao.BaseDao;
-import com.ruoyi.project.monitor.operlog.domain.OperLog;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.monitor.job.domain.Job;
 import org.springframework.stereotype.Repository;
 

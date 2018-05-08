@@ -3,8 +3,6 @@ package com.ruoyi.project.system.dept.dao;
 import java.util.List;
 
 import com.ruoyi.framework.web.dao.BaseDao;
-import com.ruoyi.project.system.role.domain.Role;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.dept.domain.Dept;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

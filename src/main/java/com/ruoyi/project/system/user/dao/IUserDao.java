@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ruoyi.framework.web.dao.BaseDao;
 import com.ruoyi.project.system.role.domain.Role;
-import org.apache.ibatis.annotations.Mapper;
 import com.ruoyi.project.system.user.domain.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

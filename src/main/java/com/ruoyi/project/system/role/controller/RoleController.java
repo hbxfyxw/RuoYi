@@ -45,9 +45,7 @@ public class RoleController extends BaseController
     @ResponseBody
     public TableDataInfo list(Role role)
     {
-        setPageInfo(role);
-        List<Role> list = roleService.selectRoleList(role);
-        return getDataTable(list);
+        return roleService.selectRoleList(getPageRequest(role),role);
     }
     
     /**

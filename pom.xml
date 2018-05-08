@@ -9,7 +9,7 @@
 	<packaging>jar</packaging>
 
 	<name>RuoYi</name>
-	<description>若依管理系统</description>
+	<description>管理系统</description>
 	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -95,20 +95,6 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency>
-		
-		<!-- SpringBoot集成mybatis框架 -->
-		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>${mybatis-spring-boot-starter.version}</version>
-		</dependency>
-		
-		<!-- pagehelper 分页插件 -->
-		<dependency>
-		    <groupId>com.github.pagehelper</groupId>
-		    <artifactId>pagehelper-spring-boot-starter</artifactId>
-		    <version>1.2.3</version>
 		</dependency>
 		
 		<!--阿里数据库连接池 -->

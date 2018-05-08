@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Set;
 
 import com.ruoyi.framework.web.dao.BaseDao;
+import com.ruoyi.framework.web.page.TableDataInfo;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.user.domain.User;
+import org.springframework.data.domain.PageRequest;
 
 /**
  * 角色业务层
@@ -21,7 +23,7 @@ public interface IRoleService
      * @param role 角色信息
      * @return 角色数据集合信息
      */
-    public List<Role> selectRoleList(Role role);
+    public TableDataInfo selectRoleList(PageRequest pageRequest, Role role);
 
     /**
      * 根据用户ID查询角色
