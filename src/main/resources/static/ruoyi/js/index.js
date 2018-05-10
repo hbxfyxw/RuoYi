@@ -15,7 +15,7 @@ $(function() {
     });
 
     // 菜单切换
-    $('.navbar-minimalize').click(function() {
+    $('.toggle-nav-collapse').click(function() {
         $("body").toggleClass("mini-navbar");
         SmoothlyMenu();
     });
@@ -49,7 +49,7 @@ $(window).bind("load resize",
     });
 
 function NavToggle() {
-    $('.navbar-minimalize').trigger('click');
+    $('.toggle-nav-collapse').trigger('click');
 }
 
 function SmoothlyMenu() {

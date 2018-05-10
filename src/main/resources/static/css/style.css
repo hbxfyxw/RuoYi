@@ -3265,7 +3265,7 @@ body.body-small .footer.fixed {
 
 .content-tabs .roll-nav, .page-tabs-list {
     position: absolute;
-    width: 40px;
+    width: 50px;
     height: 40px;
     text-align: center;
     color: #999;
@@ -3296,7 +3296,7 @@ body.body-small .footer.fixed {
 }
 
 nav.page-tabs {
-    margin-left: 90px;
+    margin-left: 40px;
     width: 100000px;
     height: 40px;
     overflow: hidden;
@@ -3337,7 +3337,7 @@ nav.page-tabs .page-tabs-content {
     width: 80px;
 }
 
-.roll-right.J_tabExit {
+.roll-right.tabReload {
     background: #fff;
     height: 40px;
     width: 60px;
@@ -3349,7 +3349,7 @@ nav.page-tabs .page-tabs-content {
 }
 
 #content-main {
-    height: calc(100% - 80px);
+    height: calc(100% - 0px);
     overflow: hidden;
 }
 
@@ -7345,5 +7345,39 @@ body.skin-3 {
     color: #333333!important;
     background-color: #ffffff!important;
     border-color: #cccccc!important;
+}
+
+/**/
+#main-sidebar .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 220px;
+    height: 40px;
+    font-size: 13px;
+    outline: none;
+    line-height: 40px;
+    text-align: center;
+}
+
+#main-sidebar .custom-nav {
+    width: 170px;
+    border-right: 1px solid #303B59;
+}
+#main-sidebar .collapse-nav, #main-sidebar .custom-nav {
+    background: #121A2C;
+    display: inline-block;
+    zoom: 1;
+    float: left;
+    transition-duration: .3s;
+    color: #E8ECF0;
+    width: 70px;
+}
+
+#main-sidebar .collapse-nav i, #main-sidebar .custom-nav i {
+    font-size: 14px;
+}
+user agent stylesheeti, cite, em, var, address, dfn {
+    font-style: italic;
 }
 
