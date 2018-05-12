@@ -17,6 +17,7 @@ $(function() {
     // 菜单切换
     $('.toggle-nav-collapse').click(function() {
         $("body").toggleClass("mini-navbar");
+        $("#collaps").toggleClass("icon-collapsed");
         SmoothlyMenu();
     });
 

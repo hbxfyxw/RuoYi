@@ -7360,15 +7360,18 @@ body.skin-3 {
     text-align: center;
 }
 
+.icon-collapsed {
+    transform: rotate(-180deg);
+}
+
 #main-sidebar .custom-nav {
     width: 170px;
     border-right: 1px solid #303B59;
 }
 #main-sidebar .collapse-nav, #main-sidebar .custom-nav {
-    background: #121A2C;
+    background: ##121A2C;
     display: inline-block;
     zoom: 1;
-    float: left;
     transition-duration: .3s;
     color: #E8ECF0;
     width: 70px;
@@ -7381,3 +7384,23 @@ user agent stylesheeti, cite, em, var, address, dfn {
     font-style: italic;
 }
 
+/**/
+.navbar-default .sidebar-fold:hover {
+    color: #fff;
+}
+
+.navbar-default .sidebar-fold {
+    height: 30px;
+    width: 100%;
+    background: #4a5064;
+    color: #aeb9c2;
+    text-align: center;
+    line-height: 30px!important;
+    font-size: 12px;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    display: inline-block
+}
