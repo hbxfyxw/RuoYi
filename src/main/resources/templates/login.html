@@ -9,7 +9,7 @@
     <meta name="description" content="RuoYi">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome.css" rel="stylesheet">
-    <link href="/css/style.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
     <link href="/css/login.css" rel="stylesheet">
     <link href="/css/register.css" rel="stylesheet">
     <!--[if lt IE 9]>
@@ -25,26 +25,29 @@
 </head>
 
 <body class="signin">
-<div class="signinpanel">
-    <div class="row">
-        <div class="col-sm-7">
-            <div class="signin-info">
-                <div class="logopanel m-b">
-                    <!-- <h1><img alt="[ 若依 ]" src="/ruoyi.png"></h1>-->
-                </div>
-                <div class="m-b"></div>
-                <h4>欢迎使用</strong></h4>
-                <ul class="m-b">
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> JPA</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
-                    <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
-                </ul>
-            </div>
+<div class="header">
+    <div class="logo" title="企业版" style="background-image:url(/img/logo1.png)">LOGO</div>
+    <div class="links_wrap">
+        <div class="links_item inline_block links_item_first">
+            <a href="javascript:void(0);" target="_blank" _cat="topcustomlink" _id="osfromqiyoubyGJ" style="">官网</a>
         </div>
-        <div class="col-sm-5">
-            <form id="signupForm">
+        <div class="links_item inline_block ">
+            <a href="javascript:void(0);" target="_blank" _cat="topcustomlink" _id="gyfromqiyoubyGJ" style="">文档</a>
+        </div>
+        <span class="links_item inline_block ">
+            <a href="javascript:void(0);" target="_blank" _cat="toplink" _id="app">手机APP</a>
+            <span class="login_banner_download" style="background-image: url(/img/loginQr.png)"></span>
+        </span>
+        <span class="links_item inline_block "><a href="javascript:void(0);" target="_blank" _cat="toplink" _id="help">帮助</a></span>
+    </div>
+</div>
+
+<div class="content bg_default" style="background-color: rgb(34, 35, 36); background-image: url(/img/login-wel.jpg)">
+    <div class="content_inner">
+        <div class="login_welcome" style="background-image: url(/img/login-11wel.jpg)); display: block;"></div>
+        <div class="login_pannel">
+            <div class="login_panel_form">
+                <form id="signupForm">
                 <div class="register_box" style="display: block;">
                     <div class="lg-content">
                         <div class="qc-pt-login-content" id="loginBox">
@@ -97,17 +100,24 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </form>
+            </div>
         </div>
     </div>
-    <div class="signup-footer">
-        <div class="pull-left">
-            &copy; 2018 All Rights Reserved.
-        </div>
+</div>
+
+<div class="footer">
+    <div class="copyright_wrap">
+        <span class="login_about_label"><a class="copyright_about_link" target="_blank" href="javascript:void(0);" _cat="bottomlink" _id="about">关于我们</a></span>
+        <span class="login_about_label"><a class="copyright_about_link" target="_blank" href="javascript:void(0);" _cat="bottomlink" _id="law">法律声明</a></span>
+        <span class="login_about_label"><a class="copyright_about_link" target="_blank" href="javascript:void(0);" _cat="bottomlink" _id="links">友情链接</a></span>
+    </div>
+    <div class="copyright_wrap copyright_wrap_info">
+        &copy; 2018 All Rights Reserved.
     </div>
 </div>
 <script th:inline="javascript"> var ctx = [[@{

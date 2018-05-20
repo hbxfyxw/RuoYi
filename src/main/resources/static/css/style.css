@@ -3187,15 +3187,6 @@ ul.unstyled, ol.unstyled {
     font-size: 160px;
     color: #e5e6e7;
 }
-/* FOOTER */
-.footer {
-    background: none repeat scroll 0 0 white;
-    border-top: 1px solid #e7eaec;
-    overflow: hidden;
-    padding: 10px 20px;
-    margin: 0 -15px;
-    height: 36px;
-}
 
 .footer.fixed_full {
     position: fixed;

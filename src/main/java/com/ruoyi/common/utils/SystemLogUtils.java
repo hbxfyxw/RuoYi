@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import com.ruoyi.project.monitor.logininfor.service.ILogininforService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class SystemLogUtils
         String os = userAgent.getOperatingSystem().getName();
         // 获取客户端浏览器
         String browser = userAgent.getBrowser().getName();
-        LogininforServiceImpl logininforService = SpringUtils.getBean(LogininforServiceImpl.class);
+        ILogininforService logininforService = SpringUtils.getBean("logininforService");
         Logininfor logininfor = new Logininfor();
         logininfor.setLoginName(username);
         logininfor.setStatus(status);

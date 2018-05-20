@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ruoyi.framework.web.page.TableDataInfo;
-import com.ruoyi.project.fpgl.fpcx.domain.Fpzb;
 import com.ruoyi.project.system.dept.dao.IDeptDao;
-import com.ruoyi.project.system.post.domain.Post;
-import com.ruoyi.project.system.role.domain.Role;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.stereotype.Service;
 
 import com.ruoyi.common.constant.UserConstants;
@@ -24,13 +25,17 @@ import com.ruoyi.project.system.user.dao.IUserRoleDao;
 import com.ruoyi.project.system.user.domain.User;
 import com.ruoyi.project.system.user.domain.UserPost;
 import com.ruoyi.project.system.user.domain.UserRole;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import javax.persistence.Transient;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.transaction.Transaction;
 
 /**
  * 用户 业务层处理
@@ -38,7 +43,7 @@ import javax.persistence.criteria.Root;
  * @author ruoyi
  */
 @Service("userService")
-public class UserServiceImpl implements IUserService
+public class UserServiceImpl implements IUserService,ApplicationContextAware
 {
 
     @Autowired
@@ -147,11 +152,13 @@ public class UserServiceImpl implements IUserService
      * @return 结果
      */
     @Override
-    @Transactional
     public boolean deleteUserById(Long userId)
     {
+        if(TransactionSynchronizationManager.isActualTransactionActive()){
+            System.out.println("meiyoushiwu");
+        }
         // 删除用户与角色关联
-        userRoleDao.deleteUserRoleByUserId(userId);
+        userRoleDao.delUserRoleByUserId(userId);
         userDao.delete(userId);
         return true;
     }
@@ -195,7 +202,7 @@ public class UserServiceImpl implements IUserService
             // 修改用户信息
             userDao.save(user);
             // 删除用户与角色关联
-            userRoleDao.deleteUserRoleByUserId(userId);
+            userRoleDao.delUserRoleByUserId(userId);
             // 新增用户与角色管理
             insertUserRole(user);
             // 删除用户与岗位关联
@@ -302,5 +309,10 @@ public class UserServiceImpl implements IUserService
             return UserConstants.NAME_NOT_UNIQUE;
         }
         return UserConstants.NAME_UNIQUE;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("====");
     }
 }

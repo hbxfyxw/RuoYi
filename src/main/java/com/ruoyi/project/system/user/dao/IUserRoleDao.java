@@ -7,6 +7,8 @@ import com.ruoyi.project.system.user.domain.UserRole;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户表 数据层
@@ -25,7 +27,7 @@ public interface IUserRoleDao extends BaseDao<UserRole, Long>
      */
     @Modifying
     @Query(value = "delete from sys_user_role where user_id=?1",nativeQuery = true)
-    public void deleteUserRoleByUserId(Long userId);
+    public void delUserRoleByUserId(Long userId);
 
     /**
      * 通过角色ID删除用户和角色关联

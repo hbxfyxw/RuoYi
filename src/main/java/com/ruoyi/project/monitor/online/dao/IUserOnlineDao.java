@@ -31,6 +31,6 @@ public interface IUserOnlineDao extends BaseDao<UserOnline, String>
      * @return 会话集合
      */
     @Query(value = "SELECT * FROM sys_user_online o " +
-            "WHERE o.last_access_time <![CDATA[ <= ]]> ?1 ORDER BY o.last_access_time ASC",nativeQuery = true)
+            "WHERE o.last_access_time <= ?1 ORDER BY o.last_access_time ASC",nativeQuery = true)
     public List<UserOnline> selectOnlineByExpired(String lastAccessTime);
 }

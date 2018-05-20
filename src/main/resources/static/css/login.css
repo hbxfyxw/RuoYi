@@ -4,7 +4,7 @@ html {
 
 body.signin {
     height: auto;
-    background: url(../img/login-background2.jpg) no-repeat center fixed;
+    background: url(../img/login-background3.jpg) no-repeat center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -89,4 +89,140 @@ body.signin {
         margin: 0 20px;
         width: auto
     }
+}
+
+.header {
+    width: 1000px;
+    height: 60px;
+    margin: 0 auto;
+    position: relative;
+    zoom: 1;
+    z-index: 100;
+}
+
+.logo {
+    position: absolute;
+    left: 30px;
+    top: 5px;
+    width: 222px;
+    height: 50px;
+    background-repeat: no-repeat;
+    background-position: center left;
+    overflow: hidden;
+    z-index: 110;
+}
+
+.links_wrap {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 700px;
+    text-align: right;
+    white-space: no-wrap;
+    font-size: 12px;
+    color: #444;
+    z-index: 100;
+}
+.inline_block {
+    display: inline-block;
+    zoom: 1;
+}
+.links_item_first {
+    border-left: none;
+}
+.links_item {
+    line-height: 24px;
+    border-left: 1px solid #dcdcdc;
+    padding: 0 12px;
+    position: relative;
+    zoom: 1;
+}
+
+.content {
+    position: relative;
+    zoom: 1;
+    width: 100%;
+    height: 500px;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+.content_inner {
+    position: relative;
+    zoom: 1;
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+.login_welcome {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 30px;
+    width: 400px;
+    height: 300px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: top left;
+    color: #fff;
+}
+.login_pannel {
+    position: absolute;
+    top: 65px;
+    right: 30px;
+    bottom: 30px;
+    box-shadow: 0 0 5px rgba(255,255,255,.5);
+    -moz-box-shadow: 0 0 5px rgba(255,255,255,.5);
+    -webkit-border-shadow: 0 0 5px rgba(255,255,255,.5);
+}
+
+.login_panel_form {
+    width: 380px;
+    height: 360px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    zoom: 1;
+    z-index: 10;
+}
+
+.footer {
+    width: 1000px;
+    margin: 0 auto;
+    padding-top: 20px;
+}
+
+.copyright_wrap {
+    padding: 0;
+    overflow: hidden;
+    font-size: 12px;
+    color: #848585;
+    text-align: center;
+}
+.login_about_label {
+    padding: 0 3px;
+}
+.copyright_about_link {
+    font-weight: bold;
+    color: #444;
+    text-decoration: none;
+}
+.copyright_wrap_info{
+    padding-top:20px;
+}
+
+.links_item:hover .login_banner_download {
+    display: block;
+}
+
+.login_banner_download {
+    position: absolute;
+    top: 30px;
+    width: 160px;
+    height: 160px;
+    left: 0;
+    z-index: 10;
+    display: none;
+    background-color: #fff;
 }

@@ -1,10 +1,14 @@
 package com.ruoyi;
 
+import com.sun.org.apache.bcel.internal.util.ClassPath;
 import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ImportResource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * 启动程序
@@ -12,6 +16,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
  * @author ruoyi
  */
 @SpringBootApplication
+@EnableTransactionManagement
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class RuoYiApplication
 {

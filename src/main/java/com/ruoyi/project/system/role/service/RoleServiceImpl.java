@@ -16,6 +16,7 @@ import com.ruoyi.project.system.role.dao.RoleMenuDao;
 import com.ruoyi.project.system.role.domain.Role;
 import com.ruoyi.project.system.role.domain.RoleMenu;
 import com.ruoyi.project.system.user.dao.IUserRoleDao;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -149,9 +150,10 @@ public class RoleServiceImpl implements IRoleService
      * @return 结果
      */
     @Override
+    @Transactional
     public boolean deleteRoleById(Long roleId)
     {
-        userRoleDao.deleteUserRoleByUserId(roleId);
+        userRoleDao.delUserRoleByUserId(roleId);
         roleMenuDao.delete(roleId);
         roleDao.delete(roleId);
         return true;

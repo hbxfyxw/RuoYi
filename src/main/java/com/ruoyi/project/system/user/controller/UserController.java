@@ -2,8 +2,12 @@ package com.ruoyi.project.system.user.controller;
 
 import java.util.List;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +33,7 @@ import com.ruoyi.project.system.user.service.IUserService;
  */
 @Controller
 @RequestMapping("/system/user")
-public class UserController extends BaseController
+public class UserController extends BaseController implements ApplicationContextAware
 {
 
     private String prefix = "system/user";
@@ -117,6 +121,7 @@ public class UserController extends BaseController
     @Log(title = "系统管理", action = "用户管理-删除用户")
     @RequestMapping("/remove/{userId}")
     @ResponseBody
+    @Transactional
     public JSON remove(@PathVariable("userId") Long userId)
     {
         User user = userService.selectUserById(userId);
@@ -184,4 +189,8 @@ public class UserController extends BaseController
         return prefix + "/tree";
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        System.out.println("====");
+    }
 }
