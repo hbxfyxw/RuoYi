@@ -26,6 +26,7 @@ public interface IUserRoleDao extends BaseDao<UserRole, Long>
      * @return 结果
      */
     @Modifying
+    @Transactional(propagation = Propagation.MANDATORY)
     @Query(value = "delete from sys_user_role where user_id=?1",nativeQuery = true)
     public void delUserRoleByUserId(Long userId);
 

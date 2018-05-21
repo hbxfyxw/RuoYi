@@ -155,7 +155,7 @@ public class UserServiceImpl implements IUserService,ApplicationContextAware
     public boolean deleteUserById(Long userId)
     {
         if(TransactionSynchronizationManager.isActualTransactionActive()){
-            System.out.println("meiyoushiwu");
+            System.out.println("deleteUserById has tx");
         }
         // 删除用户与角色关联
         userRoleDao.delUserRoleByUserId(userId);
@@ -189,7 +189,6 @@ public class UserServiceImpl implements IUserService,ApplicationContextAware
      * @return 结果
      */
     @Override
-    @Transactional
     public boolean saveUser(User user)
     {
         int count = 0;

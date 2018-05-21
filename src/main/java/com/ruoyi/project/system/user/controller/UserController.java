@@ -121,7 +121,6 @@ public class UserController extends BaseController implements ApplicationContext
     @Log(title = "系统管理", action = "用户管理-删除用户")
     @RequestMapping("/remove/{userId}")
     @ResponseBody
-    @Transactional
     public JSON remove(@PathVariable("userId") Long userId)
     {
         User user = userService.selectUserById(userId);

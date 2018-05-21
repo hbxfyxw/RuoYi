@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author ruoyi
  */
 @SpringBootApplication
-@EnableTransactionManagement
+@ImportResource(locations={"classpath:applicationContext.xml"})
 @EnableAutoConfiguration(exclude = { DataSourceAutoConfiguration.class })
 public class RuoYiApplication
 {
